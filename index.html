@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>BerusAI — one calm medication reminder, not five</title>
+<meta name="description" content="BerusAI reminds you once per dose and waits for your answer. No nagging, no repeat buzzing. Your medication history stays on your phone.">
+<meta name="theme-color" content="#f2efec">
+<link rel="icon" href="favicon.ico" sizes="any">
+
+<!-- Replace SITE_URL with your live address once GitHub Pages is on, e.g. https://yourname.github.io/berusai/ -->
+<meta property="og:type" content="website">
+<meta property="og:title" content="BerusAI — one calm medication reminder, not five">
+<meta property="og:description" content="Reminds you once per dose and waits for your answer. No nagging. Your history stays on your phone.">
+<meta property="og:image" content="SITE_URL/assets/social-card.png">
+<meta property="og:url" content="SITE_URL">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="BerusAI — one calm medication reminder, not five">
+<meta name="twitter:description" content="Reminds you once per dose and waits for your answer. No nagging.">
+<meta name="twitter:image" content="SITE_URL/assets/social-card.png">
+
+<style>
+:root{
+  --canvas:#f2efec; --surface:#fffdfc; --ink:#1d1c1b; --muted:#69635f;
+  --line:#d8d1cc; --green:#2f725f; --green-soft:#dcebe5; --amber:#f3c875;
+  --radius:14px; --max:1040px;
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{
+  margin:0; background:var(--canvas); color:var(--ink);
+  font-family:"Avenir Next","Segoe UI",system-ui,-apple-system,sans-serif;
+  font-size:17px; line-height:1.65;
+}
+h1,h2,h3{font-family:Georgia,"Times New Roman",serif; line-height:1.2; margin:0 0 .5em}
+h1{font-size:clamp(2rem,6vw,3.3rem); letter-spacing:-.01em}
+h2{font-size:clamp(1.5rem,4vw,2.1rem)}
+h3{font-size:1.15rem}
+p{margin:0 0 1em}
+a{color:var(--green)}
+/* width/height attrs reserve space; height:auto keeps the real aspect ratio. */
+img{max-width:100%; height:auto}
+.wrap{max-width:var(--max); margin:0 auto; padding:0 22px}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+
+header{padding:26px 0}
+.brand{display:flex; align-items:center; gap:11px; text-decoration:none; color:inherit}
+.brand img{width:34px; height:34px; border-radius:9px; display:block}
+.brand span{font-family:Georgia,serif; font-size:1.3rem; font-weight:600}
+
+.hero{padding:20px 0 56px}
+.hero-grid{display:grid; gap:40px; align-items:center}
+@media(min-width:860px){.hero-grid{grid-template-columns:1.05fr .95fr; gap:56px}}
+.lede{font-size:1.16rem; color:var(--muted); max-width:34ch}
+.pill{
+  display:inline-block; background:var(--green-soft); color:var(--green);
+  font-size:.8rem; font-weight:600; letter-spacing:.06em; text-transform:uppercase;
+  padding:6px 13px; border-radius:999px; margin-bottom:18px;
+}
+.cta{display:flex; flex-wrap:wrap; gap:12px; margin-top:26px}
+.btn{
+  display:inline-block; padding:14px 26px; border-radius:var(--radius);
+  text-decoration:none; font-weight:600; font-size:1rem; border:1px solid transparent;
+}
+.btn-primary{background:var(--green); color:#fff}
+.btn-primary:hover{background:#255c4c}
+.btn-ghost{background:transparent; color:var(--ink); border-color:var(--line)}
+.btn-ghost:hover{border-color:var(--ink)}
+.note{font-size:.9rem; color:var(--muted); margin-top:14px}
+
+.shot-hero{
+  width:100%; max-width:290px; margin:0 auto; display:block;
+  border-radius:26px; border:1px solid var(--line);
+  box-shadow:0 18px 44px rgba(29,28,27,.13);
+}
+
+section{padding:56px 0; border-top:1px solid var(--line)}
+.section-lede{color:var(--muted); max-width:56ch; margin-bottom:34px}
+
+.cards{display:grid; gap:18px}
+@media(min-width:700px){.cards{grid-template-columns:repeat(3,1fr)}}
+.card{background:var(--surface); border:1px solid var(--line); border-radius:var(--radius); padding:24px}
+.card h3{margin-bottom:.35em}
+.card p{margin:0; color:var(--muted); font-size:.97rem}
+
+.compare{display:grid; gap:18px; margin-top:8px}
+@media(min-width:700px){.compare{grid-template-columns:1fr 1fr}}
+.box{border-radius:var(--radius); padding:24px; border:1px solid var(--line)}
+.box.bad{background:#fbf3f0}
+.box.good{background:var(--green-soft); border-color:#bcd9cd}
+.box h3{margin-bottom:.6em}
+.box ul{margin:0; padding-left:20px; color:var(--muted); font-size:.97rem}
+.box li{margin-bottom:.35em}
+.box.good ul{color:#2c5c4d}
+
+.strip{display:flex; gap:16px; overflow-x:auto; padding:4px 22px 18px; scroll-snap-type:x mandatory}
+.strip figure{margin:0; flex:0 0 210px; scroll-snap-align:center}
+.strip img{width:100%; border-radius:18px; border:1px solid var(--line); display:block; background:var(--surface)}
+.strip figcaption{font-size:.85rem; color:var(--muted); margin-top:9px; text-align:center}
+
+ol.steps{counter-reset:s; list-style:none; padding:0; margin:0; display:grid; gap:18px}
+@media(min-width:700px){ol.steps{grid-template-columns:repeat(3,1fr)}}
+ol.steps li{counter-increment:s; background:var(--surface); border:1px solid var(--line); border-radius:var(--radius); padding:24px}
+ol.steps li::before{
+  content:counter(s); display:grid; place-items:center; width:32px; height:32px;
+  border-radius:50%; background:var(--amber); color:#4a3a12; font-weight:700; margin-bottom:12px;
+}
+ol.steps strong{display:block; margin-bottom:.3em}
+ol.steps span{color:var(--muted); font-size:.97rem}
+
+details{background:var(--surface); border:1px solid var(--line); border-radius:var(--radius); padding:18px 22px; margin-bottom:12px}
+details summary{cursor:pointer; font-weight:600; list-style:none}
+details summary::-webkit-details-marker{display:none}
+details summary::after{content:"+"; float:right; color:var(--muted); font-weight:400}
+details[open] summary::after{content:"–"}
+details p{margin:.8em 0 0; color:var(--muted); font-size:.97rem}
+
+footer{border-top:1px solid var(--line); padding:36px 0 52px; color:var(--muted); font-size:.92rem}
+footer a{color:var(--muted)}
+.foot-links{display:flex; flex-wrap:wrap; gap:18px; margin-bottom:14px}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap">
+    <a class="brand" href="./"><img src="assets/icon.png" alt=""><span>BerusAI</span></a>
+  </div>
+</header>
+
+<main>
+<div class="hero wrap">
+  <div class="hero-grid">
+    <div>
+      <span class="pill">Android · Early access</span>
+      <h1>One reminder.<br>Not five.</h1>
+      <p class="lede">Most medication apps buzz you again and again until you give in. BerusAI reminds you once, then waits quietly for your answer.</p>
+      <div class="cta">
+        <a class="btn btn-primary" href="mailto:banothgopikrishna19@gmail.com?subject=BerusAI%20early%20access&amp;body=Hi%2C%20I%27d%20like%20to%20try%20BerusAI%20when%20it%20launches.">Get early access</a>
+        <a class="btn btn-ghost" href="#how">See how it works</a>
+      </div>
+      <p class="note">Free. No account needed to start. Coming to Google Play.</p>
+    </div>
+    <img class="shot-hero" src="assets/shots/06-reminder-notification.webp" width="540" height="1200" alt="A BerusAI reminder on an Android lock screen with Taken and Not taken buttons.">
+  </div>
+</div>
+
+<section id="why">
+  <div class="wrap">
+    <h2>Why people uninstall reminder apps</h2>
+    <p class="section-lede">It is almost never because the reminder failed. It is because the reminder would not stop.</p>
+    <div class="compare">
+      <div class="box bad">
+        <h3>What usually happens</h3>
+        <ul>
+          <li>Reminder at 5:37</li>
+          <li>Again at 5:52</li>
+          <li>Again at 6:07</li>
+          <li>Again at 6:22</li>
+          <li>“You missed your dose” at 7:37</li>
+          <li>You mute the app. Then you miss a real dose.</li>
+        </ul>
+      </div>
+      <div class="box good">
+        <h3>What BerusAI does</h3>
+        <ul>
+          <li>Reminder at 5:37</li>
+          <li>It stays on your screen</li>
+          <li>You answer whenever you can</li>
+          <li>That is the whole thing</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <h2>Built to be trusted, not loud</h2>
+    <div class="cards">
+      <div class="card">
+        <h3>It waits for you</h3>
+        <p>The reminder stays in your notification tray until you tap Taken or Not taken. Busy at dose time? It is still there an hour later.</p>
+      </div>
+      <div class="card">
+        <h3>It works offline</h3>
+        <p>Reminders are scheduled on your phone. No signal, no data pack, aeroplane mode — they still arrive on time.</p>
+      </div>
+      <div class="card">
+        <h3>It stays on your device</h3>
+        <p>Your medicines and history live on your phone. Cloud backup is optional and only runs if you sign in.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="how">
+  <div class="wrap">
+    <h2>How it works</h2>
+    <ol class="steps">
+      <li><strong>Add your medicine</strong><span>Name it, add a photo if you like, and set how many days the course runs.</span></li>
+      <li><strong>Pick your times</strong><span>Morning, afternoon, night — before or after food. Sensible defaults are already filled in.</span></li>
+      <li><strong>Answer once a dose</strong><span>Tap Taken or Not taken. Your history builds itself, so you always know where you stand.</span></li>
+    </ol>
+  </div>
+</section>
+
+<section>
+  <div class="wrap"><h2>A look inside</h2></div>
+  <div class="strip">
+    <figure><img src="assets/shots/02-create-medication.webp" width="540" height="1200" loading="lazy" alt="Adding a medication with a name and photo."><figcaption>Add a medicine</figcaption></figure>
+    <figure><img src="assets/shots/03-reminder-times.webp" width="540" height="1200" loading="lazy" alt="Choosing reminder times for morning, afternoon and night."><figcaption>Choose your times</figcaption></figure>
+    <figure><img src="assets/shots/04-treatment-course.webp" width="540" height="1200" loading="lazy" alt="Setting how many days the treatment course runs."><figcaption>Set the course</figcaption></figure>
+    <figure><img src="assets/shots/05-medications-and-tracking.webp" width="540" height="1200" loading="lazy" alt="The list of medications with dose tracking."><figcaption>Track every dose</figcaption></figure>
+    <figure><img src="assets/shots/07-on-this-device.webp" width="540" height="1200" loading="lazy" alt="Settings showing that data is stored on this device."><figcaption>Your data, your phone</figcaption></figure>
+  </div>
+</section>
+
+<section id="faq">
+  <div class="wrap">
+    <h2>Questions</h2>
+    <details><summary>Is it free?</summary><p>Yes. BerusAI is free to use, with no ads and nothing to unlock.</p></details>
+    <details><summary>Do I need an account?</summary><p>No. You can add medicines and get reminders without signing in. Signing in only adds optional cloud backup so you can restore on a new phone.</p></details>
+    <details><summary>Will reminders work if I close the app?</summary><p>Yes. Reminders are scheduled with the Android system, so they arrive whether the app is open, closed, or the phone was restarted.</p></details>
+    <details><summary>What if I miss a dose?</summary><p>The app quietly records it as missed so your history stays accurate. It will not send you an extra notification about it.</p></details>
+    <details><summary>Is my health data private?</summary><p>Your medicines and dose history are stored on your phone. Nothing is shared with advertisers, and nothing is sold. Cloud backup runs only if you choose to sign in.</p></details>
+    <details><summary>When is it on the Play Store?</summary><p>It is in final testing now. Email us and we will tell you the day it goes live.</p></details>
+  </div>
+</section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="foot-links">
+      <a href="privacy.html">Privacy policy</a>
+      <a href="mailto:banothgopikrishna19@gmail.com">Contact support</a>
+    </div>
+    <p>BerusAI helps you remember your medication. It does not give medical advice. Always follow your doctor or pharmacist.</p>
+  </div>
+</footer>
+
+</body>
+</html>
