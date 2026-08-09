@@ -54,26 +54,27 @@
 </header>
 
 <main>
-<div class="hero wrap">
-  <div class="hero-grid">
-    <div>
-      <span class="pill">Android · Early access</span>
-      <h1>One reminder.<br>Not five.</h1>
-      <p class="lede">Most medication apps buzz you again and again until you give in. BerusAI reminds you once, then waits quietly for your answer.</p>
-      <div class="cta">
-        <a class="btn btn-primary" href="#install"><svg class="ico ico-sm" aria-hidden="true"><use href="#i-download"/></svg>Download for Android</a>
-        <a class="btn btn-ghost" href="#how">See how it works</a>
-      </div>
-      <p class="note">Free · 3.3 MB · no account needed · works offline. Coming to Google Play.</p>
+<div class="banner wrap">
+  <div class="banner-inner">
+    <img class="banner-mark" src="assets/wordmark.webp" width="720" height="126" alt="" aria-hidden="true">
+    <p class="banner-rhythm">Schedule. Remember. Record.</p>
+    <h1>One reminder.<br>Not five.</h1>
+    <p class="lede">Most medication apps buzz you again and again until you give in. BerusAI reminds you once, then waits quietly for your answer.</p>
+    <div class="cta">
+      <a class="btn btn-primary" href="#install"><svg class="ico ico-sm" aria-hidden="true"><use href="#i-download"/></svg>Download for Android</a>
+      <a class="btn btn-ghost" href="#how">See how it works</a>
     </div>
-      <div class="hero-shot-wrap">
-        <img class="shot-hero" src="assets/shots/06-reminder-notification.webp" width="540" height="1200" alt="A BerusAI reminder on an Android lock screen with Taken and Not taken buttons.">
-      </div>
+    <p class="note">Early access &middot; Free &middot; 3.3 MB &middot; no account needed &middot; works offline</p>
+    <div class="stage">
+      <img class="shot-hero" src="assets/shots/05-medications-and-tracking.webp" width="540" height="1200" alt="The BerusAI medications screen showing today's progress and two medicines with their times.">
+      <img class="shot-card" src="assets/shots/reminder-card.webp" width="996" height="364" alt="A BerusAI reminder reading Medication reminder, Take E2ET at bedtime, with Taken, Not taken and Snooze buttons.">
+    </div>
   </div>
 </div>
 
 <section id="why">
   <div class="wrap">
+    <p class="eyebrow">The problem</p>
     <h2>Why people uninstall reminder apps</h2>
     <p class="section-lede">It is almost never because the reminder failed. It is because the reminder would not stop.</p>
     <div class="compare">
@@ -104,6 +105,7 @@
 
 <section>
   <div class="wrap">
+    <p class="eyebrow">How it behaves</p>
     <h2>Built to be trusted, not loud</h2>
     <div class="cards">
       <div class="card">
@@ -127,6 +129,7 @@
 
 <section id="how">
   <div class="wrap">
+    <p class="eyebrow">Getting started</p>
     <h2>How it works</h2>
     <ol class="steps">
       <li><strong>Add your medicine</strong><span>Name it, add a photo if you like, and set how many days the course runs.</span></li>
@@ -137,7 +140,7 @@
 </section>
 
 <section>
-  <div class="wrap"><h2>A look inside</h2></div>
+  <div class="wrap"><p class="eyebrow">Screens</p><h2>A look inside</h2></div>
   <div class="strip">
     <figure><img src="assets/shots/02-create-medication.webp" width="540" height="1200" loading="lazy" alt="Adding a medication with a name and photo."><figcaption>Add a medicine</figcaption></figure>
     <figure><img src="assets/shots/03-reminder-times.webp" width="540" height="1200" loading="lazy" alt="Choosing reminder times for morning, afternoon and night."><figcaption>Choose your times</figcaption></figure>
@@ -175,6 +178,7 @@
 
 <section id="install">
   <div class="wrap">
+    <p class="eyebrow">Install</p>
     <h2>Get it on your phone</h2>
     <p class="section-lede">BerusAI is not on Google Play yet, so Android will ask you to confirm the install. That warning appears for every app installed outside the store — it is not a sign anything is wrong.</p>
     <div class="cta">
@@ -215,6 +219,19 @@
     <p>BerusAI helps you remember your medication. It does not give medical advice. Always follow your doctor or pharmacist.</p>
   </div>
 </footer>
+
+<script>
+  // Without JS the header wordmark simply stays visible, which is the safe default.
+  (function () {
+    var brand = document.querySelector('.brand');
+    var mark = document.querySelector('.banner-mark');
+    if (!brand || !mark || !('IntersectionObserver' in window)) return;
+    brand.classList.add('is-hidden');
+    new IntersectionObserver(function (entries) {
+      brand.classList.toggle('is-hidden', entries[0].isIntersecting);
+    }, { rootMargin: '-56px 0px 0px 0px' }).observe(mark);
+  })();
+</script>
 
 </body>
 </html>

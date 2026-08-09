@@ -130,26 +130,57 @@ header{
   box-shadow:0 1px 0 rgba(213,208,203,.5), 0 8px 24px rgba(29,28,27,.045);
 }
 .header-row{display:flex; align-items:center; justify-content:space-between; gap:var(--s4)}
-.brand{display:inline-block; text-decoration:none; line-height:0}
-.brand img{height:34px; width:auto; display:block}
+.brand{display:inline-block; text-decoration:none; line-height:0; transition:opacity 240ms ease-out, transform 240ms ease-out, visibility 0s}
+.brand img{height:30px; width:auto; display:block}
+/* The banner already shows the wordmark, so the header holds it back until the banner
+   has gone. Delaying visibility keeps the link out of the tab order once faded. */
+.brand.is-hidden{
+  opacity:0; transform:translateY(-4px); pointer-events:none; visibility:hidden;
+  transition:opacity 240ms ease-out, transform 240ms ease-out, visibility 0s 240ms;
+}
 
-/* ---------- Hero ---------- */
-.hero{padding:var(--s2) 0 var(--s8)}
-.hero-grid{display:grid; gap:var(--s7); align-items:center}
-@media(min-width:880px){.hero-grid{grid-template-columns:1.05fr .95fr; gap:var(--s9)}}
-/* A soft glow behind the device so it sits in the page rather than on top of it. */
-.hero-shot-wrap{position:relative; display:grid; place-items:center}
-.hero-shot-wrap::before{
-  content:""; position:absolute; width:78%; height:70%; border-radius:50%;
-  background:radial-gradient(circle, rgba(59,140,115,.26), transparent 68%);
-  filter:blur(46px);
+/* ---------- Banner hero ---------- */
+/* The composition of the Play Store feature graphic, rebuilt in live text so it stays
+   sharp at any size and can be translated. The raster stays the share card. */
+.banner{padding:var(--s7) 0 var(--s9); text-align:center}
+.banner-inner{display:grid; justify-items:center}
+.banner-mark{width:min(268px,60vw); height:auto; margin-bottom:var(--s4)}
+.banner-rhythm{
+  font-size:.9375rem; color:var(--muted); letter-spacing:.03em; margin:0 0 var(--s6);
 }
-.hero-shot-wrap img{position:relative}
+.banner h1{margin-bottom:var(--s4)}
+.banner .lede{max-width:46ch; margin:0 auto}
+.banner .cta{justify-content:center; margin-top:var(--s6)}
+.banner .note{margin-bottom:var(--s9)}
+
+/* The phone gets a stage: a glow behind it and a contact shadow beneath, so it reads
+   as an object standing on the page rather than a picture pasted onto it.
+   The stage is only as wide as the phone, so the card can be sized against it. */
+.stage{position:relative; width:min(318px,100%); margin:0 auto}
+.stage::before{
+  content:""; position:absolute; left:50%; transform:translateX(-50%); top:4%;
+  /* Capped against the viewport, or the glow pushes the page wider on phones. */
+  width:min(180%, 96vw); height:80%; border-radius:50%; filter:blur(60px);
+  background:radial-gradient(circle, rgba(59,140,115,.30), transparent 70%);
+}
+.stage::after{
+  content:""; position:absolute; left:50%; transform:translateX(-50%); bottom:-14px;
+  width:78%; height:34px; border-radius:50%; filter:blur(18px);
+  background:radial-gradient(ellipse, rgba(29,28,27,.26), transparent 70%);
+}
 .shot-hero{
-  width:100%; max-width:290px; margin:0 auto; display:block;
+  position:relative; width:100%; display:block;
   border-radius:var(--r-xl); border:1px solid var(--glass-edge);
-  box-shadow:0 4px 10px rgba(29,28,27,.06), 0 30px 70px rgba(29,28,27,.18);
+  box-shadow:0 4px 10px rgba(29,28,27,.07), 0 34px 80px rgba(29,28,27,.20);
 }
+/* The reminder is the whole point, so it steps out in front of the phone.
+   drop-shadow follows the card's rounded alpha; box-shadow would draw a rectangle. */
+.shot-card{
+  position:absolute; left:50%; transform:translateX(-50%); bottom:7%;
+  width:124%; max-width:none; height:auto;
+  filter:drop-shadow(0 2px 4px rgba(29,28,27,.16)) drop-shadow(0 20px 38px rgba(29,28,27,.26));
+}
+@media(max-width:640px){.shot-card{width:104%; bottom:6%}}
 
 /* ---------- Icons ---------- */
 .ico{
@@ -158,13 +189,26 @@ header{
   stroke-linecap:round; stroke-linejoin:round;
 }
 .ico-sm{width:18px; height:18px}
-/* A tinted tile behind the glyph, the way an iOS settings row reads. */
+/* A rounded tile with its own light: gradient body, lit top edge, and a coloured
+   shadow underneath, the way a home screen icon sits above the wallpaper. */
 .ico-tile{
-  width:40px; height:40px; border-radius:var(--r-sm); display:grid; place-items:center;
-  background:var(--brand-soft); color:var(--brand-deep); margin-bottom:var(--s4);
-  box-shadow:inset 0 1px 0 rgba(255,255,255,.8);
+  width:46px; height:46px; border-radius:13px; display:grid; place-items:center;
+  background:linear-gradient(160deg, #46A085, #2B6E59);
+  color:#fff; margin-bottom:var(--s4);
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.42),
+    inset 0 -1px 0 rgba(0,0,0,.14),
+    0 1px 2px rgba(29,28,27,.16),
+    0 8px 18px rgba(43,110,89,.28);
 }
-.ico-tile.amber{background:#F7E8D2; color:#8A5A16}
+.ico-tile.amber{
+  background:linear-gradient(160deg, #E3A64C, #B87A25);
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.42),
+    inset 0 -1px 0 rgba(0,0,0,.14),
+    0 1px 2px rgba(29,28,27,.16),
+    0 8px 18px rgba(184,122,37,.28);
+}
 
 /* ---------- Buttons ---------- */
 .cta{display:flex; flex-wrap:wrap; gap:var(--s3); margin-top:var(--s6)}
@@ -315,6 +359,7 @@ a:focus-visible, summary:focus-visible, .btn:focus-visible{
   .strip{scroll-snap-type:none}
   /* The drops keep their shape, they just stop drifting. */
   .drops i{animation:none}
+  .brand,.brand.is-hidden{transform:none}
 }
 /* Fewer and smaller on phones — the filter is repainted on every frame, and the
    content runs edge to edge there, so the tint has to stay lighter. */
