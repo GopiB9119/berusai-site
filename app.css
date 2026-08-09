@@ -347,6 +347,10 @@ footer a:hover{color:var(--ink)}
 .foot-links{display:flex; flex-wrap:wrap; gap:var(--s5); margin-bottom:var(--s1)}
 
 /* ---------- States ---------- */
+/* The reveal class is added by script, so with JS off everything renders visible. */
+.reveal{opacity:0; transform:translateY(14px); transition:opacity 520ms ease-out, transform 520ms ease-out}
+.reveal.in{opacity:1; transform:none}
+
 a:focus-visible, summary:focus-visible, .btn:focus-visible{
   outline:3px solid var(--brand); outline-offset:3px; border-radius:var(--r-sm);
 }
@@ -360,6 +364,7 @@ a:focus-visible, summary:focus-visible, .btn:focus-visible{
   /* The drops keep their shape, they just stop drifting. */
   .drops i{animation:none}
   .brand,.brand.is-hidden{transform:none}
+  .reveal{opacity:1; transform:none; transition:none}
 }
 /* Fewer and smaller on phones — the filter is repainted on every frame, and the
    content runs edge to edge there, so the tint has to stay lighter. */

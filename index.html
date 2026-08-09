@@ -6,13 +6,20 @@
 <title>BerusAI — one calm medication reminder, not five</title>
 <meta name="description" content="BerusAI reminds you once per dose and waits for your answer. No nagging, no repeat buzzing. Your medication history stays on your phone.">
 <meta name="theme-color" content="#f2efec">
+<meta name="color-scheme" content="light">
+<link rel="canonical" href="https://gopib9119.github.io/berusai-site/">
 <link rel="icon" href="favicon.ico" sizes="any">
+<link rel="apple-touch-icon" href="assets/icon.png">
 
 <!-- Social crawlers need absolute URLs, so these cannot be relative paths. -->
 <meta property="og:type" content="website">
+<meta property="og:site_name" content="BerusAI">
 <meta property="og:title" content="BerusAI — one calm medication reminder, not five">
 <meta property="og:description" content="Reminds you once per dose and waits for your answer. No nagging. Your history stays on your phone.">
 <meta property="og:image" content="https://gopib9119.github.io/berusai-site/assets/social-card.png">
+<meta property="og:image:width" content="1024">
+<meta property="og:image:height" content="500">
+<meta property="og:image:alt" content="BerusAI. Medication reminders, made clear. Schedule. Remember. Record.">
 <meta property="og:url" content="https://gopib9119.github.io/berusai-site/">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="BerusAI — one calm medication reminder, not five">
@@ -36,6 +43,7 @@
   <symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5"/><path d="M12 7.5V12l3 1.8"/></symbol>
   <symbol id="i-doc" viewBox="0 0 24 24"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5"/><path d="M9 13.5h6"/><path d="M9 17h4"/></symbol>
   <symbol id="i-chevron" viewBox="0 0 24 24"><path d="M9.5 5.5l7 6.5-7 6.5"/></symbol>
+  <symbol id="i-chevron-down" viewBox="0 0 24 24"><path d="M5.5 9.5l6.5 7 6.5-7"/></symbol>
   <symbol id="i-download" viewBox="0 0 24 24"><path d="M12 3.5v11"/><path d="M7.5 10L12 14.5 16.5 10"/><path d="M4.5 19.5h15"/></symbol>
   <symbol id="i-alert" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5"/><path d="M12 7.5v5"/><path d="M12 16h.01"/></symbol>
   <symbol id="i-shield" viewBox="0 0 24 24"><path d="M12 3.2l7.2 2.9v6c0 4.7-3.1 7.8-7.2 9.2-4.1-1.4-7.2-4.5-7.2-9.2v-6z"/><path d="M9 12l2.2 2.2L15.4 10"/></symbol>
@@ -49,7 +57,7 @@
 <header>
   <div class="wrap header-row">
     <a class="brand" href="./"><img src="assets/wordmark.webp" width="720" height="126" alt="BerusAI"></a>
-    <a class="btn btn-ghost btn-sm" href="#install">Download</a>
+    <a class="btn btn-ghost btn-sm" href="#install">Get the app</a>
   </div>
 </header>
 
@@ -61,7 +69,7 @@
     <h1>One reminder.<br>Not five.</h1>
     <p class="lede">Most medication apps buzz you again and again until you give in. BerusAI reminds you once, then waits quietly for your answer.</p>
     <div class="cta">
-      <a class="btn btn-primary" href="#install"><svg class="ico ico-sm" aria-hidden="true"><use href="#i-download"/></svg>Download for Android</a>
+      <a class="btn btn-primary" href="#install"><svg class="ico ico-sm" aria-hidden="true"><use href="#i-chevron-down"/></svg>Get it on Android</a>
       <a class="btn btn-ghost" href="#how">See how it works</a>
     </div>
     <p class="note">Early access &middot; Free &middot; 3.3 MB &middot; no account needed &middot; works offline</p>
@@ -72,10 +80,10 @@
   </div>
 </div>
 
-<section id="why">
+<section id="why" aria-labelledby="h-why">
   <div class="wrap">
     <p class="eyebrow">The problem</p>
-    <h2>Why people uninstall reminder apps</h2>
+    <h2 id="h-why">Why people uninstall reminder apps</h2>
     <p class="section-lede">It is almost never because the reminder failed. It is because the reminder would not stop.</p>
     <div class="compare">
       <div class="box bad">
@@ -103,10 +111,10 @@
   </div>
 </section>
 
-<section>
+<section aria-labelledby="h-trust">
   <div class="wrap">
     <p class="eyebrow">How it behaves</p>
-    <h2>Built to be trusted, not loud</h2>
+    <h2 id="h-trust">Built to be trusted, not loud</h2>
     <div class="cards">
       <div class="card">
         <span class="ico-tile"><svg class="ico" aria-hidden="true"><use href="#i-bell"/></svg></span>
@@ -127,10 +135,10 @@
   </div>
 </section>
 
-<section id="how">
+<section id="how" aria-labelledby="h-how">
   <div class="wrap">
     <p class="eyebrow">Getting started</p>
-    <h2>How it works</h2>
+    <h2 id="h-how">How it works</h2>
     <ol class="steps">
       <li><strong>Add your medicine</strong><span>Name it, add a photo if you like, and set how many days the course runs.</span></li>
       <li><strong>Pick your times</strong><span>Morning, afternoon, night — before or after food. Sensible defaults are already filled in.</span></li>
@@ -139,8 +147,8 @@
   </div>
 </section>
 
-<section>
-  <div class="wrap"><p class="eyebrow">Screens</p><h2>A look inside</h2></div>
+<section aria-labelledby="h-inside">
+  <div class="wrap"><p class="eyebrow">Screens</p><h2 id="h-inside">A look inside</h2></div>
   <div class="strip">
     <figure><img src="assets/shots/02-create-medication.webp" width="540" height="1200" loading="lazy" alt="Adding a medication with a name and photo."><figcaption>Add a medicine</figcaption></figure>
     <figure><img src="assets/shots/03-reminder-times.webp" width="540" height="1200" loading="lazy" alt="Choosing reminder times for morning, afternoon and night."><figcaption>Choose your times</figcaption></figure>
@@ -150,10 +158,10 @@
   </div>
 </section>
 
-<section id="next">
+<section id="next" aria-labelledby="h-next">
   <div class="wrap">
     <span class="pill">Future version</span>
-    <h2>Where BerusAI is going</h2>
+    <h2 id="h-next">Where BerusAI is going</h2>
     <p class="section-lede">There is no AI in the app today, and we would rather tell you that than pretend. Right now it does one thing properly: it reminds you once, and remembers your answer. Here is what is being built next.</p>
     <div class="cards">
       <div class="card">
@@ -176,13 +184,13 @@
   </div>
 </section>
 
-<section id="install">
+<section id="install" aria-labelledby="h-install">
   <div class="wrap">
     <p class="eyebrow">Install</p>
-    <h2>Get it on your phone</h2>
+    <h2 id="h-install">Get it on your phone</h2>
     <p class="section-lede">BerusAI is not on Google Play yet, so Android will ask you to confirm the install. That warning appears for every app installed outside the store — it is not a sign anything is wrong.</p>
     <div class="cta">
-      <a class="btn btn-primary" href="https://github.com/GopiB9119/berusai-site/releases/download/v1.0/berusai-1.0.apk"><svg class="ico ico-sm" aria-hidden="true"><use href="#i-download"/></svg>Download BerusAI 1.0 &middot; 3.3 MB</a>
+      <a class="btn btn-primary" href="https://github.com/GopiB9119/berusai-site/releases/download/v1.0/berusai-1.0.apk" download><svg class="ico ico-sm" aria-hidden="true"><use href="#i-download"/></svg>Download berusai-1.0.apk &middot; 3.3 MB</a>
     </div>
     <ol class="steps">
       <li><strong>Download the file</strong><span>Tap the button above on your phone. <b>berusai-1.0.apk</b> saves to your Downloads folder.</span></li>
@@ -193,9 +201,9 @@
   </div>
 </section>
 
-<section id="faq">
+<section id="faq" aria-labelledby="h-faq">
   <div class="wrap">
-    <h2>Questions</h2>
+    <h2 id="h-faq">Questions</h2>
     <div class="faq">
       <details><summary><span>Is it free?</span><svg class="ico" aria-hidden="true"><use href="#i-chevron"/></svg></summary><p>Yes. BerusAI is free to use, with no ads and nothing to unlock.</p></details>
       <details><summary><span>Do I need an account?</span><svg class="ico" aria-hidden="true"><use href="#i-chevron"/></svg></summary><p>No. You can add medicines and get reminders without signing in. Signing in only adds optional cloud backup so you can restore on a new phone.</p></details>
@@ -230,6 +238,26 @@
     new IntersectionObserver(function (entries) {
       brand.classList.toggle('is-hidden', entries[0].isIntersecting);
     }, { rootMargin: '-56px 0px 0px 0px' }).observe(mark);
+  })();
+
+  // Same idea: the class is added here, so nothing is hidden when the script does not run.
+  (function () {
+    if (!('IntersectionObserver' in window)) return;
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    var items = document.querySelectorAll('.card, .box, ol.steps li, .strip figure');
+    if (!items.length) return;
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) {
+        if (!e.isIntersecting) return;
+        e.target.classList.add('in');
+        io.unobserve(e.target);
+      });
+    }, { rootMargin: '0px 0px -8% 0px' });
+    Array.prototype.forEach.call(items, function (el, i) {
+      el.classList.add('reveal');
+      el.style.transitionDelay = (i % 3) * 70 + 'ms';
+      io.observe(el);
+    });
   })();
 </script>
 
