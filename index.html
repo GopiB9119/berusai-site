@@ -26,6 +26,16 @@
   --radius:18px; --max:1040px;
   --lift:0 1px 2px rgba(29,28,27,.05), 0 8px 24px rgba(29,28,27,.06);
   --lift-strong:0 2px 4px rgba(29,28,27,.06), 0 18px 44px rgba(29,28,27,.10);
+
+  /* Liquid glass: a translucent pane with a lit top edge and a shadowed bottom one. */
+  --glass:linear-gradient(180deg, rgba(255,253,252,.76), rgba(255,253,252,.55));
+  --glass-edge:rgba(255,255,255,.72);
+  --glass-blur:blur(22px) saturate(180%);
+  --glass-lift:
+    inset 0 1px 0 rgba(255,255,255,.92),
+    inset 0 -1px 0 rgba(29,28,27,.05),
+    0 2px 6px rgba(29,28,27,.05),
+    0 18px 44px rgba(29,28,27,.10);
 }
 *{box-sizing:border-box}
 html{-webkit-text-size-adjust:100%}
@@ -33,8 +43,8 @@ body{
   margin:0; color:var(--ink);
   /* Flat colour is what made this read as unfinished; these washes give the page depth. */
   background:
-    radial-gradient(1100px 620px at 82% -5%, rgba(47,114,95,.13), transparent 62%),
-    radial-gradient(900px 520px at 4% 2%, rgba(243,200,117,.16), transparent 58%),
+    radial-gradient(1100px 620px at 82% -5%, rgba(47,114,95,.09), transparent 62%),
+    radial-gradient(900px 520px at 4% 2%, rgba(243,200,117,.12), transparent 58%),
     var(--canvas);
   background-attachment:fixed;
   font-family:"Avenir Next","Segoe UI",system-ui,-apple-system,sans-serif;
@@ -52,13 +62,55 @@ img{max-width:100%; height:auto}
 .wrap{max-width:var(--max); margin:0 auto; padding:0 22px}
 .sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
 
+/* Droplets. The gooey filter blurs this layer then hardens its alpha again, so two
+   blobs that drift close stop being two shapes and pull a neck between them, the way
+   water does. The blobs have to be opaque for that to work — the layer is what fades. */
+.drops{
+  position:fixed; inset:0; z-index:-1; pointer-events:none; overflow:hidden;
+  /* goo merges them; the small blur only takes the aliasing off the edge. */
+  filter:url(#goo) blur(4px); opacity:.28;
+}
+.drops i{position:absolute; display:block; border-radius:50%; will-change:transform}
+/* Every drop has a neighbour close enough to fuse with. A lone blob just reads as a dot. */
+.d1{width:300px;height:300px;background:#2f725f;top:-100px;right:-70px; animation:d1 19s ease-in-out infinite}
+.d2{width:180px;height:180px;background:#3f8a73;top:180px; right:2%;    animation:d2 23s ease-in-out infinite}
+.d3{width:250px;height:250px;background:#f3c875;top:-80px; left:-120px; animation:d3 27s ease-in-out infinite}
+.d4{width:160px;height:160px;background:#e9b95c;top:150px; left:-40px;  animation:d4 21s ease-in-out infinite}
+/* The traveller: it rises to touch the amber pair, then falls back to the green one,
+   so the two colours are briefly joined by a single thread of liquid. */
+.d5{width:130px;height:130px;background:#6fa08e;top:38%;   left:-30px;  animation:d5 25s ease-in-out infinite}
+.d6{width:100px;height:100px;background:#7fae9d;top:56%;   left:60px;   animation:d6 29s ease-in-out infinite}
+
+@keyframes d1{0%,100%{transform:translate(0,0) scale(1)} 50%{transform:translate(-60px,110px) scale(1.08)}}
+@keyframes d2{0%,100%{transform:translate(0,0) scale(1)} 50%{transform:translate(40px,-90px) scale(.9)}}
+@keyframes d3{0%,100%{transform:translate(0,0) scale(1)} 50%{transform:translate(70px,120px) scale(1.06)}}
+@keyframes d4{0%,100%{transform:translate(0,0) scale(1)} 50%{transform:translate(-40px,-110px) scale(1.12)}}
+@keyframes d5{
+  0%,100%{transform:translate(0,0) scale(1)}
+  40%{transform:translate(26px,-124px) scale(.88)}
+  72%{transform:translate(-14px,34px) scale(1.06)}
+}
+@keyframes d6{0%,100%{transform:translate(0,0) scale(1)} 50%{transform:translate(-44px,-62px) scale(1.1)}}
+/* Fewer and smaller on phones — the filter is repainted on every frame, and the
+   content runs edge to edge there, so the tint has to stay lighter. */
+@media(max-width:900px){
+  .drops{opacity:.17}
+  /* Scoped, because ".drops i" would otherwise out-specify a bare ".d2". */
+  .drops i.d2, .drops i.d4{display:none}
+  .d1{width:210px;height:210px}
+  .d3{width:170px;height:170px}
+  .d5{width:110px;height:110px}
+  .d6{width:84px;height:84px}
+}
+
 /* Translucent chrome: content scrolls under it rather than being cut off by a solid strip. */
 header{
   position:sticky; top:0; z-index:10; padding:16px 0;
-  background:rgba(242,239,236,.72);
-  backdrop-filter:blur(20px) saturate(180%);
-  -webkit-backdrop-filter:blur(20px) saturate(180%);
-  border-bottom:1px solid rgba(216,209,204,.6);
+  background:linear-gradient(180deg, rgba(242,239,236,.82), rgba(242,239,236,.6));
+  backdrop-filter:var(--glass-blur);
+  -webkit-backdrop-filter:var(--glass-blur);
+  border-bottom:1px solid rgba(255,255,255,.6);
+  box-shadow:0 1px 0 rgba(216,209,204,.45), 0 8px 24px rgba(29,28,27,.045);
 }
 .brand{display:inline-block; text-decoration:none; line-height:0}
 .brand img{height:36px; width:auto; display:block}
@@ -112,17 +164,25 @@ section + section::before{
 .cards{display:grid; gap:18px}
 @media(min-width:700px){.cards{grid-template-columns:repeat(3,1fr)}}
 .card{
-  background:var(--surface); border:1px solid rgba(216,209,204,.7);
-  border-radius:var(--radius); padding:26px; box-shadow:var(--lift);
+  background:var(--glass); border:1px solid var(--glass-edge);
+  backdrop-filter:var(--glass-blur); -webkit-backdrop-filter:var(--glass-blur);
+  border-radius:var(--radius); padding:26px; box-shadow:var(--glass-lift);
 }
 .card h3{margin-bottom:.35em}
 .card p{margin:0; color:var(--muted); font-size:.97rem}
 
 .compare{display:grid; gap:18px; margin-top:8px}
 @media(min-width:700px){.compare{grid-template-columns:1fr 1fr}}
-.box{border-radius:var(--radius); padding:26px; border:1px solid rgba(216,209,204,.7); box-shadow:var(--lift)}
-.box.bad{background:#fbf3f0}
-.box.good{background:var(--green-soft); border-color:#bcd9cd}
+.box{
+  border-radius:var(--radius); padding:26px; border:1px solid var(--glass-edge);
+  background:var(--glass); box-shadow:var(--glass-lift);
+  backdrop-filter:var(--glass-blur); -webkit-backdrop-filter:var(--glass-blur);
+}
+.box.bad{background:linear-gradient(180deg, rgba(251,243,240,.84), rgba(251,243,240,.6))}
+.box.good{
+  background:linear-gradient(180deg, rgba(220,235,229,.86), rgba(220,235,229,.62));
+  border-color:rgba(188,217,205,.85);
+}
 .box h3{margin-bottom:.6em}
 .box ul{margin:0; padding-left:20px; color:var(--muted); font-size:.97rem}
 .box li{margin-bottom:.35em}
@@ -138,12 +198,17 @@ section + section::before{
 /* Above mobile the five shots share the row, so they always fit and stay centred.
    min-width stops them shrinking illegibly on tablets; the row scrolls instead. */
 @media(min-width:701px){.strip figure{flex:1 1 0; max-width:190px; min-width:150px}}
-.strip img{width:100%; border-radius:20px; border:1px solid rgba(216,209,204,.7); display:block; background:var(--surface); box-shadow:var(--lift-strong)}
+.strip img{width:100%; border-radius:20px; border:1px solid var(--glass-edge); display:block; background:var(--surface); box-shadow:var(--glass-lift)}
 .strip figcaption{font-size:.85rem; color:var(--muted); margin-top:9px; text-align:center}
 
 ol.steps{counter-reset:s; list-style:none; padding:0; margin:0; display:grid; gap:18px}
 @media(min-width:700px){ol.steps{grid-template-columns:repeat(3,1fr)}}
-ol.steps li{counter-increment:s; background:var(--surface); border:1px solid var(--line); border-radius:var(--radius); padding:24px}
+ol.steps li{
+  counter-increment:s; border-radius:var(--radius); padding:24px;
+  background:var(--glass); border:1px solid var(--glass-edge);
+  backdrop-filter:var(--glass-blur); -webkit-backdrop-filter:var(--glass-blur);
+  box-shadow:var(--glass-lift);
+}
 ol.steps li::before{
   content:counter(s); display:grid; place-items:center; width:32px; height:32px;
   border-radius:50%; background:var(--amber); color:#4a3a12; font-weight:700; margin-bottom:12px;
@@ -151,7 +216,11 @@ ol.steps li::before{
 ol.steps strong{display:block; margin-bottom:.3em}
 ol.steps span{color:var(--muted); font-size:.97rem}
 
-details{background:var(--surface); border:1px solid rgba(216,209,204,.7); border-radius:var(--radius); padding:18px 22px; margin-bottom:12px; box-shadow:var(--lift)}
+details{
+  background:var(--glass); border:1px solid var(--glass-edge);
+  backdrop-filter:var(--glass-blur); -webkit-backdrop-filter:var(--glass-blur);
+  border-radius:var(--radius); padding:18px 22px; margin-bottom:12px; box-shadow:var(--glass-lift);
+}
 /* Padding grows the touch target to 44px; the negative margin keeps the visual spacing. */
 details summary{cursor:pointer; font-weight:600; list-style:none; padding:8px 0; margin:-8px 0}
 details summary::-webkit-details-marker{display:none}
@@ -177,19 +246,47 @@ summary:active{opacity:.6}
   .btn{transition:background-color 160ms ease-out}
   .btn:active{transform:none}
   .strip{scroll-snap-type:none}
+  /* The drops keep their shape, they just stop drifting. */
+  .drops i{animation:none}
 }
-/* Frostier and solid when translucency is unwanted. */
+/* Solid panes when translucency is unwanted, and no liquid moving behind them. */
 @media (prefers-reduced-transparency: reduce){
-  header{background:var(--canvas); backdrop-filter:none; -webkit-backdrop-filter:none}
+  .drops{display:none}
+  header,.card,.box,details,ol.steps li{
+    background:var(--surface); border-color:var(--line); box-shadow:var(--lift);
+    backdrop-filter:none; -webkit-backdrop-filter:none;
+  }
+  header{background:var(--canvas)}
+  .box.bad{background:#fbf3f0}
+  .box.good{background:var(--green-soft); border-color:#bcd9cd}
 }
 @media (prefers-contrast: more){
   :root{--muted:#4a4542; --line:#8c8580}
-  header{background:var(--canvas); backdrop-filter:none; -webkit-backdrop-filter:none}
-  .card,.box,details{border-width:2px}
+  .drops{display:none}
+  header,.card,.box,details,ol.steps li{
+    background:var(--surface); backdrop-filter:none; -webkit-backdrop-filter:none;
+  }
+  header{background:var(--canvas)}
+  .card,.box,details{border-width:2px; border-color:var(--line)}
+}
+/* Without backdrop-filter the panes are just see-through, so make them solid instead. */
+@supports not ((backdrop-filter:blur(1px)) or (-webkit-backdrop-filter:blur(1px))){
+  header,.card,.box,details,ol.steps li{background:var(--surface)}
 }
 </style>
 </head>
 <body>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false"><defs>
+  <filter id="goo" x="-30%" y="-30%" width="160%" height="160%">
+    <feGaussianBlur in="SourceGraphic" stdDeviation="20" result="blur"/>
+    <feColorMatrix in="blur" type="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 24 -10"/>
+  </filter>
+</defs></svg>
+
+<div class="drops" aria-hidden="true">
+  <i class="d1"></i><i class="d2"></i><i class="d3"></i><i class="d4"></i><i class="d5"></i><i class="d6"></i>
+</div>
 
 <header>
   <div class="wrap">
