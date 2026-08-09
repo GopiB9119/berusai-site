@@ -201,6 +201,29 @@
   </div>
 </section>
 
+<section id="notify" aria-labelledby="h-notify">
+  <div class="wrap">
+    <div class="panel">
+      <p class="eyebrow">Stay in the loop</p>
+      <h2 id="h-notify">Tell me when it reaches Google Play</h2>
+      <p class="section-lede">One email on the day it goes live, and nothing else. Your address is not shared with anyone.</p>
+      <form class="signup" id="notify-form" novalidate>
+        <div class="field">
+          <label for="notify-email">Your email</label>
+          <input id="notify-email" name="email" type="email" required autocomplete="email" inputmode="email" placeholder="you@example.com" aria-describedby="notify-msg">
+        </div>
+        <!-- Bots fill fields they cannot see; people do not. -->
+        <div class="sr" aria-hidden="true">
+          <label for="notify-company">Company</label>
+          <input id="notify-company" name="company" type="text" tabindex="-1" autocomplete="off">
+        </div>
+        <button class="btn btn-primary" type="submit">Notify me</button>
+      </form>
+      <p class="form-msg" id="notify-msg" role="status" aria-live="polite"></p>
+    </div>
+  </div>
+</section>
+
 <section id="faq" aria-labelledby="h-faq">
   <div class="wrap">
     <h2 id="h-faq">Questions</h2>
@@ -257,6 +280,62 @@
       el.classList.add('reveal');
       el.style.transitionDelay = (i % 3) * 70 + 'ms';
       io.observe(el);
+    });
+  })();
+
+  // Point NOTIFY_ENDPOINT at a form service to collect these on a server. Until then
+  // the form hands off to the visitor's mail app, which needs nothing set up and
+  // never silently swallows an address.
+  (function () {
+    var NOTIFY_ENDPOINT = '';
+    var CONTACT = 'banothgopikrishna19@gmail.com';
+    var form = document.getElementById('notify-form');
+    if (!form) return;
+    var input = document.getElementById('notify-email');
+    var trap = document.getElementById('notify-company');
+    var msg = document.getElementById('notify-msg');
+
+    function say(text, kind) {
+      msg.textContent = text;
+      msg.className = 'form-msg' + (kind ? ' is-' + kind : '');
+    }
+    function reject(text) {
+      input.setAttribute('aria-invalid', 'true');
+      input.focus();
+      say(text, 'error');
+    }
+
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+      input.setAttribute('aria-invalid', 'false');
+
+      if (trap.value) { say('Thanks, you are on the list.', 'ok'); return; }
+      if (!input.value.trim()) { reject('Please enter your email address so I can reach you.'); return; }
+      if (!input.checkValidity()) { reject('That does not look like an email address. Check for a typo.'); return; }
+
+      if (!NOTIFY_ENDPOINT) {
+        say('Opening your mail app so you can send it.');
+        window.location.href = 'mailto:' + CONTACT +
+          '?subject=' + encodeURIComponent('Tell me when BerusAI is on Google Play') +
+          '&body=' + encodeURIComponent('Please email me at ' + input.value.trim() +
+            ' when BerusAI is on Google Play.');
+        return;
+      }
+
+      var btn = form.querySelector('button');
+      btn.disabled = true;
+      say('Sending your address...');
+      fetch(NOTIFY_ENDPOINT, {
+        method: 'POST',
+        headers: { Accept: 'application/json' },
+        body: new FormData(form)
+      }).then(function (r) {
+        if (!r.ok) throw new Error(r.status);
+        form.reset();
+        say('Thanks. You will get one email the day it goes live.', 'ok');
+      }).catch(function () {
+        say('That did not send. Please email ' + CONTACT + ' instead.', 'error');
+      }).then(function () { btn.disabled = false; });
     });
   })();
 </script>

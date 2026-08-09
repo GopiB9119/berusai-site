@@ -19,6 +19,7 @@
   --brand-deep:#2C6B58;   /* 6.2:1 on white, 5.2:1 on canvas */
   --muted:#6B6763;        /* 4.9:1 on canvas */
   --on-amber:#2A1F05;     /* 5.9:1 on --amber */
+  --error-deep:#9B3A35;   /* the app's error red, darkened to carry small text */
 
   --hairline:rgba(29,28,27,.10);
 
@@ -345,6 +346,38 @@ footer::before{
 footer a{color:var(--muted); display:inline-flex; align-items:center; min-height:44px}
 footer a:hover{color:var(--ink)}
 .foot-links{display:flex; flex-wrap:wrap; gap:var(--s5); margin-bottom:var(--s1)}
+
+/* ---------- Notify form ---------- */
+.panel{
+  background:var(--glass); border:1px solid var(--glass-edge);
+  backdrop-filter:var(--glass-blur); -webkit-backdrop-filter:var(--glass-blur);
+  border-radius:var(--r-xl); box-shadow:var(--glass-lift);
+  padding:clamp(var(--s6),4vw,var(--s8));
+}
+.panel h2{margin-bottom:var(--s3)}
+.panel .section-lede{margin-bottom:var(--s6)}
+/* An email field does not need the full panel width to look right. */
+.signup{display:flex; flex-wrap:wrap; gap:var(--s3); align-items:flex-end; max-width:520px}
+.field{display:grid; gap:var(--s2); flex:1 1 260px}
+.field label{font-size:.875rem; font-weight:600}
+.field input{
+  min-height:48px; width:100%; padding:0 var(--s4); border-radius:var(--r-md);
+  border:1px solid var(--outline); background:rgba(255,253,252,.86);
+  font-family:var(--font); font-size:1.0625rem; color:var(--ink);
+  transition:border-color 140ms ease-out, box-shadow 140ms ease-out;
+}
+.field input::placeholder{color:#757069; opacity:1}
+.field input:focus-visible{
+  outline:3px solid var(--brand); outline-offset:2px; border-color:var(--brand);
+}
+.field input[aria-invalid="true"]{border-color:var(--error-deep)}
+.signup .btn{flex:0 0 auto}
+/* Once the row wraps, a full-width button is the easier target. */
+@media(max-width:520px){.signup .btn{flex:1 1 100%}}
+/* Reserved height stops the panel jumping when a message appears. */
+.form-msg{min-height:1.5em; margin:var(--s4) 0 0; font-size:.9375rem; color:var(--muted)}
+.form-msg.is-error{color:var(--error-deep)}
+.form-msg.is-ok{color:var(--brand-deep); font-weight:600}
 
 /* ---------- States ---------- */
 /* The reveal class is added by script, so with JS off everything renders visible. */
