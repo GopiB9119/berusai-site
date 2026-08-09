@@ -33,9 +33,10 @@ body{
   font-size:17px; line-height:1.65;
 }
 h1,h2,h3{font-family:Georgia,"Times New Roman",serif; line-height:1.2; margin:0 0 .5em}
-h1{font-size:clamp(2rem,6vw,3.3rem); letter-spacing:-.01em}
-h2{font-size:clamp(1.5rem,4vw,2.1rem)}
-h3{font-size:1.15rem}
+/* Tracking is size-specific: large text reads too loose, small text too tight. */
+h1{font-size:clamp(2rem,6vw,3.3rem); line-height:1.05; letter-spacing:-.022em}
+h2{font-size:clamp(1.5rem,4vw,2.1rem); line-height:1.12; letter-spacing:-.014em}
+h3{font-size:1.15rem; line-height:1.25; letter-spacing:-.006em}
 p{margin:0 0 1em}
 a{color:var(--green)}
 /* width/height attrs reserve space; height:auto keeps the real aspect ratio. */
@@ -43,7 +44,14 @@ img{max-width:100%; height:auto}
 .wrap{max-width:var(--max); margin:0 auto; padding:0 22px}
 .sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
 
-header{padding:26px 0}
+/* Translucent chrome: content scrolls under it rather than being cut off by a solid strip. */
+header{
+  position:sticky; top:0; z-index:10; padding:16px 0;
+  background:rgba(242,239,236,.72);
+  backdrop-filter:blur(20px) saturate(180%);
+  -webkit-backdrop-filter:blur(20px) saturate(180%);
+  border-bottom:1px solid rgba(216,209,204,.6);
+}
 .brand{display:inline-block; text-decoration:none; line-height:0}
 .brand img{height:36px; width:auto; display:block}
 
@@ -60,7 +68,11 @@ header{padding:26px 0}
 .btn{
   display:inline-block; padding:14px 26px; border-radius:var(--radius);
   text-decoration:none; font-weight:600; font-size:1rem; border:1px solid transparent;
+  /* Feedback belongs on the press, not the release. */
+  transition:transform 100ms ease-out, background-color 160ms ease-out;
+  will-change:transform;
 }
+.btn:active{transform:scale(.97)}
 .btn-primary{background:var(--green); color:#fff}
 .btn-primary:hover{background:#255c4c}
 .btn-ghost{background:transparent; color:var(--ink); border-color:var(--line)}
@@ -128,6 +140,25 @@ footer a{color:var(--muted); display:inline-block; padding:10px 0}
 .foot-links{display:flex; flex-wrap:wrap; gap:18px; margin-bottom:6px}
 
 a:focus-visible, summary:focus-visible{outline:3px solid var(--green); outline-offset:3px; border-radius:4px}
+summary{transition:opacity 100ms ease-out}
+summary:active{opacity:.6}
+
+/* Reduced motion still gets feedback, just nothing vestibular. */
+@media (prefers-reduced-motion: reduce){
+  *{animation-duration:.01ms !important; animation-iteration-count:1 !important; scroll-behavior:auto !important}
+  .btn{transition:background-color 160ms ease-out}
+  .btn:active{transform:none}
+  .strip{scroll-snap-type:none}
+}
+/* Frostier and solid when translucency is unwanted. */
+@media (prefers-reduced-transparency: reduce){
+  header{background:var(--canvas); backdrop-filter:none; -webkit-backdrop-filter:none}
+}
+@media (prefers-contrast: more){
+  :root{--muted:#4a4542; --line:#8c8580}
+  header{background:var(--canvas); backdrop-filter:none; -webkit-backdrop-filter:none}
+  .card,.box,details{border-width:2px}
+}
 </style>
 </head>
 <body>
