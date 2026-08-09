@@ -19,261 +19,7 @@
 <meta name="twitter:description" content="Reminds you once per dose and waits for your answer. No nagging.">
 <meta name="twitter:image" content="https://gopib9119.github.io/berusai-site/assets/social-card.png">
 
-<style>
-:root{
-  --canvas:#f2efec; --surface:#fffdfc; --ink:#1d1c1b; --muted:#69635f;
-  --line:#d8d1cc; --green:#2f725f; --green-soft:#dcebe5; --amber:#f3c875;
-  --radius:18px; --max:1040px;
-  --lift:0 1px 2px rgba(29,28,27,.05), 0 8px 24px rgba(29,28,27,.06);
-  --lift-strong:0 2px 4px rgba(29,28,27,.06), 0 18px 44px rgba(29,28,27,.10);
-
-  /* Liquid glass: a translucent pane with a lit top edge and a shadowed bottom one. */
-  --glass:linear-gradient(180deg, rgba(255,253,252,.76), rgba(255,253,252,.55));
-  --glass-edge:rgba(255,255,255,.72);
-  --glass-blur:blur(22px) saturate(180%);
-  --glass-lift:
-    inset 0 1px 0 rgba(255,255,255,.92),
-    inset 0 -1px 0 rgba(29,28,27,.05),
-    0 2px 6px rgba(29,28,27,.05),
-    0 18px 44px rgba(29,28,27,.10);
-}
-*{box-sizing:border-box}
-html{-webkit-text-size-adjust:100%}
-body{
-  margin:0; color:var(--ink);
-  /* Flat colour is what made this read as unfinished; these washes give the page depth. */
-  background:
-    radial-gradient(1100px 620px at 82% -5%, rgba(47,114,95,.09), transparent 62%),
-    radial-gradient(900px 520px at 4% 2%, rgba(243,200,117,.12), transparent 58%),
-    var(--canvas);
-  background-attachment:fixed;
-  font-family:"Avenir Next","Segoe UI",system-ui,-apple-system,sans-serif;
-  font-size:17px; line-height:1.65;
-}
-h1,h2,h3{font-family:Georgia,"Times New Roman",serif; line-height:1.2; margin:0 0 .5em}
-/* Tracking is size-specific: large text reads too loose, small text too tight. */
-h1{font-size:clamp(2rem,6vw,3.3rem); line-height:1.05; letter-spacing:-.022em}
-h2{font-size:clamp(1.5rem,4vw,2.1rem); line-height:1.12; letter-spacing:-.014em}
-h3{font-size:1.15rem; line-height:1.25; letter-spacing:-.006em}
-p{margin:0 0 1em}
-a{color:var(--green)}
-/* width/height attrs reserve space; height:auto keeps the real aspect ratio. */
-img{max-width:100%; height:auto}
-.wrap{max-width:var(--max); margin:0 auto; padding:0 22px}
-.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
-
-/* Droplets. The gooey filter blurs this layer then hardens its alpha again, so two
-   blobs that drift close stop being two shapes and pull a neck between them, the way
-   water does. The blobs have to be opaque for that to work — the layer is what fades. */
-.drops{
-  position:fixed; inset:0; z-index:-1; pointer-events:none; overflow:hidden;
-  /* goo merges them; the small blur only takes the aliasing off the edge. */
-  filter:url(#goo) blur(4px); opacity:.28;
-}
-.drops i{position:absolute; display:block; border-radius:50%; will-change:transform}
-/* Every drop has a neighbour close enough to fuse with. A lone blob just reads as a dot. */
-.d1{width:300px;height:300px;background:#2f725f;top:-100px;right:-70px; animation:d1 19s ease-in-out infinite}
-.d2{width:180px;height:180px;background:#3f8a73;top:180px; right:2%;    animation:d2 23s ease-in-out infinite}
-.d3{width:250px;height:250px;background:#f3c875;top:-80px; left:-120px; animation:d3 27s ease-in-out infinite}
-.d4{width:160px;height:160px;background:#e9b95c;top:150px; left:-40px;  animation:d4 21s ease-in-out infinite}
-/* The traveller: it rises to touch the amber pair, then falls back to the green one,
-   so the two colours are briefly joined by a single thread of liquid. */
-.d5{width:130px;height:130px;background:#6fa08e;top:38%;   left:-30px;  animation:d5 25s ease-in-out infinite}
-.d6{width:100px;height:100px;background:#7fae9d;top:56%;   left:60px;   animation:d6 29s ease-in-out infinite}
-
-@keyframes d1{0%,100%{transform:translate(0,0) scale(1)} 50%{transform:translate(-60px,110px) scale(1.08)}}
-@keyframes d2{0%,100%{transform:translate(0,0) scale(1)} 50%{transform:translate(40px,-90px) scale(.9)}}
-@keyframes d3{0%,100%{transform:translate(0,0) scale(1)} 50%{transform:translate(70px,120px) scale(1.06)}}
-@keyframes d4{0%,100%{transform:translate(0,0) scale(1)} 50%{transform:translate(-40px,-110px) scale(1.12)}}
-@keyframes d5{
-  0%,100%{transform:translate(0,0) scale(1)}
-  40%{transform:translate(26px,-124px) scale(.88)}
-  72%{transform:translate(-14px,34px) scale(1.06)}
-}
-@keyframes d6{0%,100%{transform:translate(0,0) scale(1)} 50%{transform:translate(-44px,-62px) scale(1.1)}}
-/* Fewer and smaller on phones — the filter is repainted on every frame, and the
-   content runs edge to edge there, so the tint has to stay lighter. */
-@media(max-width:900px){
-  .drops{opacity:.17}
-  /* Scoped, because ".drops i" would otherwise out-specify a bare ".d2". */
-  .drops i.d2, .drops i.d4{display:none}
-  .d1{width:210px;height:210px}
-  .d3{width:170px;height:170px}
-  .d5{width:110px;height:110px}
-  .d6{width:84px;height:84px}
-}
-
-/* Translucent chrome: content scrolls under it rather than being cut off by a solid strip. */
-header{
-  position:sticky; top:0; z-index:10; padding:16px 0;
-  background:linear-gradient(180deg, rgba(242,239,236,.82), rgba(242,239,236,.6));
-  backdrop-filter:var(--glass-blur);
-  -webkit-backdrop-filter:var(--glass-blur);
-  border-bottom:1px solid rgba(255,255,255,.6);
-  box-shadow:0 1px 0 rgba(216,209,204,.45), 0 8px 24px rgba(29,28,27,.045);
-}
-.brand{display:inline-block; text-decoration:none; line-height:0}
-.brand img{height:36px; width:auto; display:block}
-
-.hero{padding:8px 0 40px}
-.hero-grid{display:grid; gap:32px; align-items:center}
-@media(min-width:860px){.hero-grid{grid-template-columns:1.05fr .95fr; gap:48px}}
-.lede{font-size:1.16rem; color:var(--muted); max-width:34ch}
-.pill{
-  display:inline-block; background:var(--green-soft); color:var(--green);
-  font-size:.8rem; font-weight:600; letter-spacing:.06em; text-transform:uppercase;
-  padding:6px 13px; border-radius:999px; margin-bottom:18px;
-}
-.cta{display:flex; flex-wrap:wrap; gap:12px; margin-top:26px}
-.btn{
-  display:inline-block; padding:14px 26px; border-radius:var(--radius);
-  text-decoration:none; font-weight:600; font-size:1rem; border:1px solid transparent;
-  /* Feedback belongs on the press, not the release. */
-  transition:transform 100ms ease-out, background-color 160ms ease-out;
-  will-change:transform;
-}
-.btn:active{transform:scale(.97)}
-.btn-primary{background:var(--green); color:#fff}
-.btn-primary:hover{background:#255c4c}
-.btn-ghost{background:transparent; color:var(--ink); border-color:var(--line)}
-.btn-ghost:hover{border-color:var(--ink)}
-.note{font-size:.9rem; color:var(--muted); margin-top:14px}
-
-.shot-hero{
-  width:100%; max-width:290px; margin:0 auto; display:block;
-  border-radius:26px; border:1px solid rgba(216,209,204,.7);
-  box-shadow:0 4px 10px rgba(29,28,27,.06), 0 30px 70px rgba(29,28,27,.18);
-}
-/* A soft glow behind the device so it sits in the page rather than on top of it. */
-.hero-shot-wrap{position:relative; display:grid; place-items:center}
-.hero-shot-wrap::before{
-  content:""; position:absolute; width:78%; height:70%; border-radius:50%;
-  background:radial-gradient(circle, rgba(47,114,95,.26), transparent 68%);
-  filter:blur(46px);
-}
-.hero-shot-wrap img{position:relative}
-
-/* A soft edge where sections meet, rather than a hard 1px rule across the page. */
-section{padding:60px 0; position:relative}
-section + section::before{
-  content:""; position:absolute; inset:0 0 auto 0; height:1px;
-  background:linear-gradient(90deg, transparent, var(--line) 18%, var(--line) 82%, transparent);
-}
-.section-lede{color:var(--muted); max-width:56ch; margin-bottom:34px}
-
-.cards{display:grid; gap:18px}
-@media(min-width:700px){.cards{grid-template-columns:repeat(3,1fr)}}
-.card{
-  background:var(--glass); border:1px solid var(--glass-edge);
-  backdrop-filter:var(--glass-blur); -webkit-backdrop-filter:var(--glass-blur);
-  border-radius:var(--radius); padding:26px; box-shadow:var(--glass-lift);
-}
-.card h3{margin-bottom:.35em}
-.card p{margin:0; color:var(--muted); font-size:.97rem}
-
-.compare{display:grid; gap:18px; margin-top:8px}
-@media(min-width:700px){.compare{grid-template-columns:1fr 1fr}}
-.box{
-  border-radius:var(--radius); padding:26px; border:1px solid var(--glass-edge);
-  background:var(--glass); box-shadow:var(--glass-lift);
-  backdrop-filter:var(--glass-blur); -webkit-backdrop-filter:var(--glass-blur);
-}
-.box.bad{background:linear-gradient(180deg, rgba(251,243,240,.84), rgba(251,243,240,.6))}
-.box.good{
-  background:linear-gradient(180deg, rgba(220,235,229,.86), rgba(220,235,229,.62));
-  border-color:rgba(188,217,205,.85);
-}
-.box h3{margin-bottom:.6em}
-.box ul{margin:0; padding-left:20px; color:var(--muted); font-size:.97rem}
-.box li{margin-bottom:.35em}
-.box.good ul{color:#2c5c4d}
-
-.strip{
-  display:flex; gap:16px; overflow-x:auto; padding:4px 22px 18px;
-  scroll-snap-type:x mandatory; max-width:var(--max); margin:0 auto;
-  /* "safe" keeps the first item reachable if the row ever overflows and scrolls */
-  justify-content:safe center;
-}
-.strip figure{margin:0; flex:0 0 210px; scroll-snap-align:center}
-/* Above mobile the five shots share the row, so they always fit and stay centred.
-   min-width stops them shrinking illegibly on tablets; the row scrolls instead. */
-@media(min-width:701px){.strip figure{flex:1 1 0; max-width:190px; min-width:150px}}
-.strip img{width:100%; border-radius:20px; border:1px solid var(--glass-edge); display:block; background:var(--surface); box-shadow:var(--glass-lift)}
-.strip figcaption{font-size:.85rem; color:var(--muted); margin-top:9px; text-align:center}
-
-ol.steps{counter-reset:s; list-style:none; padding:0; margin:0; display:grid; gap:18px}
-@media(min-width:700px){ol.steps{grid-template-columns:repeat(3,1fr)}}
-ol.steps li{
-  counter-increment:s; border-radius:var(--radius); padding:24px;
-  background:var(--glass); border:1px solid var(--glass-edge);
-  backdrop-filter:var(--glass-blur); -webkit-backdrop-filter:var(--glass-blur);
-  box-shadow:var(--glass-lift);
-}
-ol.steps li::before{
-  content:counter(s); display:grid; place-items:center; width:32px; height:32px;
-  border-radius:50%; background:var(--amber); color:#4a3a12; font-weight:700; margin-bottom:12px;
-}
-ol.steps strong{display:block; margin-bottom:.3em}
-ol.steps span{color:var(--muted); font-size:.97rem}
-
-details{
-  background:var(--glass); border:1px solid var(--glass-edge);
-  backdrop-filter:var(--glass-blur); -webkit-backdrop-filter:var(--glass-blur);
-  border-radius:var(--radius); padding:18px 22px; margin-bottom:12px; box-shadow:var(--glass-lift);
-}
-/* Padding grows the touch target to 44px; the negative margin keeps the visual spacing. */
-details summary{cursor:pointer; font-weight:600; list-style:none; padding:8px 0; margin:-8px 0}
-details summary::-webkit-details-marker{display:none}
-details summary::after{content:"+"; float:right; color:var(--muted); font-weight:400}
-details[open] summary::after{content:"–"}
-details p{margin:.8em 0 0; color:var(--muted); font-size:.97rem}
-
-footer{padding:36px 0 52px; color:var(--muted); font-size:.92rem; position:relative}
-footer::before{
-  content:""; position:absolute; inset:0 0 auto 0; height:1px;
-  background:linear-gradient(90deg, transparent, var(--line) 18%, var(--line) 82%, transparent);
-}
-footer a{color:var(--muted); display:inline-block; padding:10px 0}
-.foot-links{display:flex; flex-wrap:wrap; gap:18px; margin-bottom:6px}
-
-a:focus-visible, summary:focus-visible{outline:3px solid var(--green); outline-offset:3px; border-radius:4px}
-summary{transition:opacity 100ms ease-out}
-summary:active{opacity:.6}
-
-/* Reduced motion still gets feedback, just nothing vestibular. */
-@media (prefers-reduced-motion: reduce){
-  *{animation-duration:.01ms !important; animation-iteration-count:1 !important; scroll-behavior:auto !important}
-  .btn{transition:background-color 160ms ease-out}
-  .btn:active{transform:none}
-  .strip{scroll-snap-type:none}
-  /* The drops keep their shape, they just stop drifting. */
-  .drops i{animation:none}
-}
-/* Solid panes when translucency is unwanted, and no liquid moving behind them. */
-@media (prefers-reduced-transparency: reduce){
-  .drops{display:none}
-  header,.card,.box,details,ol.steps li{
-    background:var(--surface); border-color:var(--line); box-shadow:var(--lift);
-    backdrop-filter:none; -webkit-backdrop-filter:none;
-  }
-  header{background:var(--canvas)}
-  .box.bad{background:#fbf3f0}
-  .box.good{background:var(--green-soft); border-color:#bcd9cd}
-}
-@media (prefers-contrast: more){
-  :root{--muted:#4a4542; --line:#8c8580}
-  .drops{display:none}
-  header,.card,.box,details,ol.steps li{
-    background:var(--surface); backdrop-filter:none; -webkit-backdrop-filter:none;
-  }
-  header{background:var(--canvas)}
-  .card,.box,details{border-width:2px; border-color:var(--line)}
-}
-/* Without backdrop-filter the panes are just see-through, so make them solid instead. */
-@supports not ((backdrop-filter:blur(1px)) or (-webkit-backdrop-filter:blur(1px))){
-  header,.card,.box,details,ol.steps li{background:var(--surface)}
-}
-</style>
+<link rel="stylesheet" href="app.css">
 </head>
 <body>
 
@@ -282,6 +28,18 @@ summary:active{opacity:.6}
     <feGaussianBlur in="SourceGraphic" stdDeviation="20" result="blur"/>
     <feColorMatrix in="blur" type="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 24 -10"/>
   </filter>
+
+  <symbol id="i-bell" viewBox="0 0 24 24"><path d="M18 8.5a6 6 0 1 0-12 0c0 4.8-2 6-2 6h16s-2-1.2-2-6"/><path d="M13.7 18.5a2 2 0 0 1-3.4 0"/></symbol>
+  <symbol id="i-offline" viewBox="0 0 24 24"><path d="M3 3l18 18"/><path d="M4.5 11.5a11 11 0 0 1 4.2-2.6"/><path d="M14.6 9.4a11 11 0 0 1 4.9 2.1"/><path d="M8 15a6 6 0 0 1 7.5-.6"/><path d="M12 18.5h.01"/></symbol>
+  <symbol id="i-lock" viewBox="0 0 24 24"><rect x="4.5" y="10" width="15" height="10.5" rx="2.5"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></symbol>
+  <symbol id="i-chart" viewBox="0 0 24 24"><path d="M4 4v16h16"/><path d="M8 16.5v-4"/><path d="M12.5 16.5v-8"/><path d="M17 16.5v-5.5"/></symbol>
+  <symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5"/><path d="M12 7.5V12l3 1.8"/></symbol>
+  <symbol id="i-doc" viewBox="0 0 24 24"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5"/><path d="M9 13.5h6"/><path d="M9 17h4"/></symbol>
+  <symbol id="i-chevron" viewBox="0 0 24 24"><path d="M9.5 5.5l7 6.5-7 6.5"/></symbol>
+  <symbol id="i-download" viewBox="0 0 24 24"><path d="M12 3.5v11"/><path d="M7.5 10L12 14.5 16.5 10"/><path d="M4.5 19.5h15"/></symbol>
+  <symbol id="i-alert" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5"/><path d="M12 7.5v5"/><path d="M12 16h.01"/></symbol>
+  <symbol id="i-shield" viewBox="0 0 24 24"><path d="M12 3.2l7.2 2.9v6c0 4.7-3.1 7.8-7.2 9.2-4.1-1.4-7.2-4.5-7.2-9.2v-6z"/><path d="M9 12l2.2 2.2L15.4 10"/></symbol>
+  <symbol id="i-arrow-left" viewBox="0 0 24 24"><path d="M15 5.5l-7 6.5 7 6.5"/></symbol>
 </defs></svg>
 
 <div class="drops" aria-hidden="true">
@@ -289,8 +47,9 @@ summary:active{opacity:.6}
 </div>
 
 <header>
-  <div class="wrap">
+  <div class="wrap header-row">
     <a class="brand" href="./"><img src="assets/wordmark.webp" width="720" height="126" alt="BerusAI"></a>
+    <a class="btn btn-ghost btn-sm" href="#install">Download</a>
   </div>
 </header>
 
@@ -302,7 +61,7 @@ summary:active{opacity:.6}
       <h1>One reminder.<br>Not five.</h1>
       <p class="lede">Most medication apps buzz you again and again until you give in. BerusAI reminds you once, then waits quietly for your answer.</p>
       <div class="cta">
-        <a class="btn btn-primary" href="#install">Download for Android</a>
+        <a class="btn btn-primary" href="#install"><svg class="ico ico-sm" aria-hidden="true"><use href="#i-download"/></svg>Download for Android</a>
         <a class="btn btn-ghost" href="#how">See how it works</a>
       </div>
       <p class="note">Free · 3.3 MB · no account needed · works offline. Coming to Google Play.</p>
@@ -319,7 +78,7 @@ summary:active{opacity:.6}
     <p class="section-lede">It is almost never because the reminder failed. It is because the reminder would not stop.</p>
     <div class="compare">
       <div class="box bad">
-        <h3>What usually happens</h3>
+        <h3><svg class="ico" aria-hidden="true"><use href="#i-alert"/></svg>What usually happens</h3>
         <ul>
           <li>Reminder at 5:37</li>
           <li>Again at 5:52</li>
@@ -330,7 +89,7 @@ summary:active{opacity:.6}
         </ul>
       </div>
       <div class="box good">
-        <h3>What BerusAI does</h3>
+        <h3><svg class="ico" aria-hidden="true"><use href="#i-shield"/></svg>What BerusAI does</h3>
         <ul>
           <li>Reminder at 5:37</li>
           <li>It stays on your screen</li>
@@ -348,14 +107,17 @@ summary:active{opacity:.6}
     <h2>Built to be trusted, not loud</h2>
     <div class="cards">
       <div class="card">
+        <span class="ico-tile"><svg class="ico" aria-hidden="true"><use href="#i-bell"/></svg></span>
         <h3>It waits for you</h3>
         <p>The reminder stays in your notification tray until you tap Taken or Not taken. Busy at dose time? It is still there an hour later.</p>
       </div>
       <div class="card">
+        <span class="ico-tile"><svg class="ico" aria-hidden="true"><use href="#i-offline"/></svg></span>
         <h3>It works offline</h3>
-        <p>Reminders are scheduled on your phone. No signal, no data pack, aeroplane mode — they still arrive on time.</p>
+        <p>Reminders are scheduled on your phone. No signal, no data pack, aeroplane mode &mdash; they still arrive on time.</p>
       </div>
       <div class="card">
+        <span class="ico-tile"><svg class="ico" aria-hidden="true"><use href="#i-lock"/></svg></span>
         <h3>It stays on your device</h3>
         <p>Your medicines and history live on your phone. Cloud backup is optional and only runs if you sign in.</p>
       </div>
@@ -392,14 +154,17 @@ summary:active{opacity:.6}
     <p class="section-lede">There is no AI in the app today, and we would rather tell you that than pretend. Right now it does one thing properly: it reminds you once, and remembers your answer. Here is what is being built next.</p>
     <div class="cards">
       <div class="card">
+        <span class="ico-tile amber"><svg class="ico" aria-hidden="true"><use href="#i-chart"/></svg></span>
         <h3>Spot the doses you miss</h3>
         <p>Your history already knows which dose you skip most. A future version will point it out in plain words, so you can fix the habit instead of guessing.</p>
       </div>
       <div class="card">
+        <span class="ico-tile amber"><svg class="ico" aria-hidden="true"><use href="#i-clock"/></svg></span>
         <h3>Times that fit your day</h3>
         <p>Reminders are on a fixed clock today. Later they will learn when you actually answer, and suggest a time you are more likely to keep.</p>
       </div>
       <div class="card">
+        <span class="ico-tile amber"><svg class="ico" aria-hidden="true"><use href="#i-doc"/></svg></span>
         <h3>A summary worth showing</h3>
         <p>A simple weekly view you can hand to a doctor or a family member, without them scrolling through your whole history.</p>
       </div>
@@ -413,7 +178,7 @@ summary:active{opacity:.6}
     <h2>Get it on your phone</h2>
     <p class="section-lede">BerusAI is not on Google Play yet, so Android will ask you to confirm the install. That warning appears for every app installed outside the store — it is not a sign anything is wrong.</p>
     <div class="cta">
-      <a class="btn btn-primary" href="https://github.com/GopiB9119/berusai-site/releases/download/v1.0/berusai-1.0.apk">Download BerusAI 1.0 · 3.3 MB</a>
+      <a class="btn btn-primary" href="https://github.com/GopiB9119/berusai-site/releases/download/v1.0/berusai-1.0.apk"><svg class="ico ico-sm" aria-hidden="true"><use href="#i-download"/></svg>Download BerusAI 1.0 &middot; 3.3 MB</a>
     </div>
     <ol class="steps">
       <li><strong>Download the file</strong><span>Tap the button above on your phone. <b>berusai-1.0.apk</b> saves to your Downloads folder.</span></li>
@@ -427,14 +192,16 @@ summary:active{opacity:.6}
 <section id="faq">
   <div class="wrap">
     <h2>Questions</h2>
-    <details><summary>Is it free?</summary><p>Yes. BerusAI is free to use, with no ads and nothing to unlock.</p></details>
-    <details><summary>Do I need an account?</summary><p>No. You can add medicines and get reminders without signing in. Signing in only adds optional cloud backup so you can restore on a new phone.</p></details>
-    <details><summary>Will reminders work if I close the app?</summary><p>Yes. Reminders are scheduled with the Android system, so they arrive whether the app is open, closed, or the phone was restarted.</p></details>
-    <details><summary>What if I miss a dose?</summary><p>The app quietly records it as missed so your history stays accurate. It will not send you an extra notification about it.</p></details>
-    <details><summary>Why is it called BerusAI if there is no AI yet?</summary><p>Because of where it is heading, not where it is today. The reminders you get now are plain scheduling, done carefully. The smarter parts described above are still being built, and we would rather be straight with you than claim something the app cannot do.</p></details>
-    <details><summary>Is my health data private?</summary><p>Your medicines and dose history are stored on your phone. Nothing is shared with advertisers, and nothing is sold. Cloud backup runs only if you choose to sign in.</p></details>
-    <details><summary>Is it safe to install outside the Play Store?</summary><p>The file is signed with our own certificate, so Android can confirm it has not been tampered with, and it is built in release mode so nobody can read your medication data off the phone. You are trusting us rather than Google's review, which is a fair thing to weigh. If you would rather wait for the Play Store version, email us and we will tell you when it is live.</p></details>
-    <details><summary>When is it on the Play Store?</summary><p>It is in final testing now. Email us and we will tell you the day it goes live.</p></details>
+    <div class="faq">
+      <details><summary><span>Is it free?</span><svg class="ico" aria-hidden="true"><use href="#i-chevron"/></svg></summary><p>Yes. BerusAI is free to use, with no ads and nothing to unlock.</p></details>
+      <details><summary><span>Do I need an account?</span><svg class="ico" aria-hidden="true"><use href="#i-chevron"/></svg></summary><p>No. You can add medicines and get reminders without signing in. Signing in only adds optional cloud backup so you can restore on a new phone.</p></details>
+      <details><summary><span>Will reminders work if I close the app?</span><svg class="ico" aria-hidden="true"><use href="#i-chevron"/></svg></summary><p>Yes. Reminders are scheduled with the Android system, so they arrive whether the app is open, closed, or the phone was restarted.</p></details>
+      <details><summary><span>What if I miss a dose?</span><svg class="ico" aria-hidden="true"><use href="#i-chevron"/></svg></summary><p>The app quietly records it as missed so your history stays accurate. It will not send you an extra notification about it.</p></details>
+      <details><summary><span>Why is it called BerusAI if there is no AI yet?</span><svg class="ico" aria-hidden="true"><use href="#i-chevron"/></svg></summary><p>Because of where it is heading, not where it is today. The reminders you get now are plain scheduling, done carefully. The smarter parts described above are still being built, and we would rather be straight with you than claim something the app cannot do.</p></details>
+      <details><summary><span>Is my health data private?</span><svg class="ico" aria-hidden="true"><use href="#i-chevron"/></svg></summary><p>Your medicines and dose history are stored on your phone. Nothing is shared with advertisers, and nothing is sold. Cloud backup runs only if you choose to sign in.</p></details>
+      <details><summary><span>Is it safe to install outside the Play Store?</span><svg class="ico" aria-hidden="true"><use href="#i-chevron"/></svg></summary><p>The file is signed with our own certificate, so Android can confirm it has not been tampered with, and it is built in release mode so nobody can read your medication data off the phone. You are trusting us rather than Google's review, which is a fair thing to weigh. If you would rather wait for the Play Store version, email us and we will tell you when it is live.</p></details>
+      <details><summary><span>When is it on the Play Store?</span><svg class="ico" aria-hidden="true"><use href="#i-chevron"/></svg></summary><p>It is in final testing now. Email us and we will tell you the day it goes live.</p></details>
+    </div>
   </div>
 </section>
 </main>

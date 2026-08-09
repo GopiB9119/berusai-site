@@ -4,38 +4,52 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Privacy Policy | BerusAI</title>
-<style>
-  :root { --canvas:#F2EFEC; --surface:#FFFDFC; --ink:#1D1C1B; --accent:#3B8C73; --muted:#5A5754; }
-  * { box-sizing:border-box; }
-  body { margin:0; padding:32px 20px 64px; background:var(--canvas); color:var(--ink);
-         font:16px/1.65 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif; }
-  main { max-width:720px; margin:0 auto; background:var(--surface); padding:40px;
-         border-radius:14px; box-shadow:0 1px 3px rgba(0,0,0,.07); }
-  h1 { font-size:28px; margin:0 0 4px; letter-spacing:-.4px; }
-  h2 { font-size:19px; margin:32px 0 8px; letter-spacing:-.2px; }
-  .eyebrow { color:var(--accent); font-weight:600; font-size:13px; letter-spacing:.8px;
-             text-transform:uppercase; margin:0 0 6px; }
-  .updated { color:var(--muted); font-size:14px; margin:0 0 8px; }
-  ul { padding-left:20px; }
-  li { margin:5px 0; }
-  .callout { background:var(--canvas); border-left:3px solid var(--accent);
-             padding:14px 16px; border-radius:6px; margin:20px 0; }
-  footer { max-width:720px; margin:20px auto 0; color:var(--muted); font-size:13px; text-align:center; }
-  a { color:var(--accent); }
-</style>
+<meta name="description" content="BerusAI keeps your medicines and dose history on your phone. No accounts, no analytics, no advertising, and nothing is uploaded.">
+<meta name="theme-color" content="#f2efec">
+<link rel="icon" href="favicon.ico" sizes="any">
+<link rel="stylesheet" href="app.css">
 </head>
 <body>
-<main>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false"><defs>
+  <filter id="goo" x="-30%" y="-30%" width="160%" height="160%">
+    <feGaussianBlur in="SourceGraphic" stdDeviation="20" result="blur"/>
+    <feColorMatrix in="blur" type="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 24 -10"/>
+  </filter>
+
+  <symbol id="i-arrow-left" viewBox="0 0 24 24"><path d="M15 5.5l-7 6.5 7 6.5"/></symbol>
+  <symbol id="i-doc" viewBox="0 0 24 24"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5"/><path d="M9 13.5h6"/><path d="M9 17h4"/></symbol>
+  <symbol id="i-lock" viewBox="0 0 24 24"><rect x="4.5" y="10" width="15" height="10.5" rx="2.5"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></symbol>
+  <symbol id="i-shield" viewBox="0 0 24 24"><path d="M12 3.2l7.2 2.9v6c0 4.7-3.1 7.8-7.2 9.2-4.1-1.4-7.2-4.5-7.2-9.2v-6z"/><path d="M9 12l2.2 2.2L15.4 10"/></symbol>
+  <symbol id="i-offline" viewBox="0 0 24 24"><path d="M3 3l18 18"/><path d="M4.5 11.5a11 11 0 0 1 4.2-2.6"/><path d="M14.6 9.4a11 11 0 0 1 4.9 2.1"/><path d="M8 15a6 6 0 0 1 7.5-.6"/><path d="M12 18.5h.01"/></symbol>
+  <symbol id="i-bell" viewBox="0 0 24 24"><path d="M18 8.5a6 6 0 1 0-12 0c0 4.8-2 6-2 6h16s-2-1.2-2-6"/><path d="M13.7 18.5a2 2 0 0 1-3.4 0"/></symbol>
+  <symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5"/><path d="M12 7.5V12l3 1.8"/></symbol>
+  <symbol id="i-alert" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5"/><path d="M12 7.5v5"/><path d="M12 16h.01"/></symbol>
+</defs></svg>
+
+<div class="drops" aria-hidden="true">
+  <i class="d1"></i><i class="d2"></i><i class="d3"></i><i class="d4"></i><i class="d5"></i><i class="d6"></i>
+</div>
+
+<header>
+  <div class="wrap header-row">
+    <a class="brand" href="./"><img src="assets/wordmark.webp" width="720" height="126" alt="BerusAI"></a>
+    <a class="back-link" href="./"><svg class="ico ico-sm" aria-hidden="true"><use href="#i-arrow-left"/></svg>Back to site</a>
+  </div>
+</header>
+
+<main class="wrap page">
+<article class="prose-card prose">
   <p class="eyebrow">BerusAI</p>
   <h1>Privacy Policy</h1>
   <p class="updated">Last updated: 2 August 2026</p>
 
   <div class="callout">
-    <strong>In one line:</strong> BerusAI keeps everything on your phone. It has no accounts,
-    sends no data anywhere, and contains no analytics, advertising, or tracking.
+    <p><strong>In one line:</strong> BerusAI keeps everything on your phone. It has no accounts,
+    sends no data anywhere, and contains no analytics, advertising, or tracking.</p>
   </div>
 
-  <h2>Who this policy is from</h2>
+  <h2><svg class="ico" aria-hidden="true"><use href="#i-doc"/></svg>Who this policy is from</h2>
   <p>
     BerusAI is an Android app that reminds you to take your medicines and lets you record
     whether you took them. This policy explains exactly what happens to the information you
@@ -43,7 +57,7 @@
     <strong>banothgopikrishna19@gmail.com</strong>.
   </p>
 
-  <h2>Information you enter</h2>
+  <h2><svg class="ico" aria-hidden="true"><use href="#i-doc"/></svg>Information you enter</h2>
   <p>You may enter the following into BerusAI:</p>
   <ul>
     <li>Medicine names and optional notes</li>
@@ -52,7 +66,7 @@
     <li>An optional photo of a medicine, if you choose to add one</li>
   </ul>
 
-  <h2>Where that information is stored</h2>
+  <h2><svg class="ico" aria-hidden="true"><use href="#i-lock"/></svg>Where that information is stored</h2>
   <p>
     All of it is stored only in BerusAI's private storage area on your device. Other apps on
     your phone cannot read it. It is never uploaded, transmitted, backed up to a server, or
@@ -63,7 +77,7 @@
     copied to your Google account either.
   </p>
 
-  <h2>Information BerusAI does not collect</h2>
+  <h2><svg class="ico" aria-hidden="true"><use href="#i-shield"/></svg>Information BerusAI does not collect</h2>
   <ul>
     <li>No account, sign-in, email address, or password &mdash; this version has no accounts</li>
     <li>No name, phone number, or contacts</li>
@@ -72,19 +86,19 @@
     <li>No advertising and no third-party trackers</li>
   </ul>
 
-  <h2>Data sharing and selling</h2>
+  <h2><svg class="ico" aria-hidden="true"><use href="#i-shield"/></svg>Data sharing and selling</h2>
   <p>
     BerusAI does not share, sell, rent, or transfer your information to anyone. There is no
     third party to share it with, because nothing leaves your device.
   </p>
 
-  <h2>Internet use</h2>
+  <h2><svg class="ico" aria-hidden="true"><use href="#i-offline"/></svg>Internet use</h2>
   <p>
     This version of BerusAI does not send or receive any data over the internet during normal
     use. There is no server component and no cloud sync.
   </p>
 
-  <h2>Permissions and why they are needed</h2>
+  <h2><svg class="ico" aria-hidden="true"><use href="#i-bell"/></svg>Permissions and why they are needed</h2>
   <ul>
     <li><strong>Notifications</strong> &mdash; to show your medicine reminders.</li>
     <li><strong>Alarms and reminders</strong> &mdash; to deliver a reminder at the exact time
@@ -106,7 +120,7 @@
     it does not use GPS or determine your location.
   </p>
 
-  <h2>How long data is kept, and how to delete it</h2>
+  <h2><svg class="ico" aria-hidden="true"><use href="#i-clock"/></svg>How long data is kept, and how to delete it</h2>
   <p>
     Your information stays on your device until you remove it. You are always in control:
   </p>
@@ -120,31 +134,41 @@
     to delete on your behalf.
   </p>
 
-  <h2>Children</h2>
+  <h2><svg class="ico" aria-hidden="true"><use href="#i-shield"/></svg>Children</h2>
   <p>
     BerusAI is not directed at children and does not knowingly collect information from
     children. It collects no personal information from anyone.
   </p>
 
-  <h2>This is not medical advice</h2>
+  <h2><svg class="ico" aria-hidden="true"><use href="#i-alert"/></svg>This is not medical advice</h2>
   <p>
     BerusAI is a reminder and record-keeping tool. It does not give medical advice, diagnose
     conditions, check prescriptions, or replace a doctor or pharmacist. Always follow the
     instructions given by your healthcare professional.
   </p>
 
-  <h2>Changes to this policy</h2>
+  <h2><svg class="ico" aria-hidden="true"><use href="#i-doc"/></svg>Changes to this policy</h2>
   <p>
     If a future version of BerusAI adds accounts or cloud sync, this policy will be updated
     before that version is released, and the date at the top will change.
   </p>
 
-  <h2>Contact</h2>
+  <h2><svg class="ico" aria-hidden="true"><use href="#i-doc"/></svg>Contact</h2>
   <p>
     Questions about this policy can be sent to
     <strong>banothgopikrishna19@gmail.com</strong>.
   </p>
+</article>
 </main>
-<footer>BerusAI</footer>
+
+<footer>
+  <div class="wrap page">
+    <div class="foot-links">
+      <a href="./">Back to BerusAI</a>
+      <a href="mailto:banothgopikrishna19@gmail.com">Contact support</a>
+    </div>
+    <p>BerusAI helps you remember your medication. It does not give medical advice. Always follow your doctor or pharmacist.</p>
+  </div>
+</footer>
 </body>
 </html>
