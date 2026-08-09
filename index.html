@@ -30,7 +30,13 @@
 *{box-sizing:border-box}
 html{-webkit-text-size-adjust:100%}
 body{
-  margin:0; background:var(--canvas); color:var(--ink);
+  margin:0; color:var(--ink);
+  /* Flat colour is what made this read as unfinished; these washes give the page depth. */
+  background:
+    radial-gradient(1100px 620px at 82% -5%, rgba(47,114,95,.13), transparent 62%),
+    radial-gradient(900px 520px at 4% 2%, rgba(243,200,117,.16), transparent 58%),
+    var(--canvas);
+  background-attachment:fixed;
   font-family:"Avenir Next","Segoe UI",system-ui,-apple-system,sans-serif;
   font-size:17px; line-height:1.65;
 }
@@ -57,9 +63,9 @@ header{
 .brand{display:inline-block; text-decoration:none; line-height:0}
 .brand img{height:36px; width:auto; display:block}
 
-.hero{padding:20px 0 56px}
-.hero-grid{display:grid; gap:40px; align-items:center}
-@media(min-width:860px){.hero-grid{grid-template-columns:1.05fr .95fr; gap:56px}}
+.hero{padding:8px 0 40px}
+.hero-grid{display:grid; gap:32px; align-items:center}
+@media(min-width:860px){.hero-grid{grid-template-columns:1.05fr .95fr; gap:48px}}
 .lede{font-size:1.16rem; color:var(--muted); max-width:34ch}
 .pill{
   display:inline-block; background:var(--green-soft); color:var(--green);
@@ -83,9 +89,17 @@ header{
 
 .shot-hero{
   width:100%; max-width:290px; margin:0 auto; display:block;
-  border-radius:26px; border:1px solid var(--line);
-  box-shadow:0 18px 44px rgba(29,28,27,.13);
+  border-radius:26px; border:1px solid rgba(216,209,204,.7);
+  box-shadow:0 4px 10px rgba(29,28,27,.06), 0 30px 70px rgba(29,28,27,.18);
 }
+/* A soft glow behind the device so it sits in the page rather than on top of it. */
+.hero-shot-wrap{position:relative; display:grid; place-items:center}
+.hero-shot-wrap::before{
+  content:""; position:absolute; width:78%; height:70%; border-radius:50%;
+  background:radial-gradient(circle, rgba(47,114,95,.26), transparent 68%);
+  filter:blur(46px);
+}
+.hero-shot-wrap img{position:relative}
 
 /* A soft edge where sections meet, rather than a hard 1px rule across the page. */
 section{padding:60px 0; position:relative}
@@ -196,7 +210,9 @@ summary:active{opacity:.6}
       </div>
       <p class="note">Free · 3.3 MB · no account needed · works offline. Coming to Google Play.</p>
     </div>
-    <img class="shot-hero" src="assets/shots/06-reminder-notification.webp" width="540" height="1200" alt="A BerusAI reminder on an Android lock screen with Taken and Not taken buttons.">
+      <div class="hero-shot-wrap">
+        <img class="shot-hero" src="assets/shots/06-reminder-notification.webp" width="540" height="1200" alt="A BerusAI reminder on an Android lock screen with Taken and Not taken buttons.">
+      </div>
   </div>
 </div>
 
