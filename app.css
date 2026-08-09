@@ -146,6 +146,18 @@ header{
 .banner{padding:var(--s7) 0 var(--s9); text-align:center}
 .banner-inner{display:grid; justify-items:center}
 .banner-mark{width:min(268px,60vw); height:auto; margin-bottom:var(--s4)}
+
+/* The banner settles in one line at a time, the way the app's splash holds before it
+   hands over. Fill mode both means each piece waits, out of sight, for its turn. */
+@keyframes rise{from{opacity:0; transform:translateY(12px)} to{opacity:1; transform:none}}
+.banner-inner > *{animation:rise 620ms cubic-bezier(.16,.84,.44,1) both}
+.banner-inner > *:nth-child(1){animation-delay:60ms; animation-duration:820ms}
+.banner-inner > *:nth-child(2){animation-delay:180ms}
+.banner-inner > *:nth-child(3){animation-delay:260ms}
+.banner-inner > *:nth-child(4){animation-delay:340ms}
+.banner-inner > *:nth-child(5){animation-delay:420ms}
+.banner-inner > *:nth-child(6){animation-delay:490ms}
+.banner-inner > *:nth-child(7){animation-delay:560ms}
 .banner-rhythm{
   font-size:.9375rem; color:var(--muted); letter-spacing:.03em; margin:0 0 var(--s6);
 }
@@ -398,6 +410,8 @@ a:focus-visible, summary:focus-visible, .btn:focus-visible{
   .drops i{animation:none}
   .brand,.brand.is-hidden{transform:none}
   .reveal{opacity:1; transform:none; transition:none}
+  /* No entrance at all, rather than a fast one. */
+  .banner-inner > *{animation:none; opacity:1; transform:none}
 }
 /* Fewer and smaller on phones — the filter is repainted on every frame, and the
    content runs edge to edge there, so the tint has to stay lighter. */
