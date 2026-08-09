@@ -64,7 +64,10 @@
 <main>
 <div class="banner wrap">
   <div class="banner-inner">
-    <img class="banner-mark" src="assets/wordmark.webp" width="720" height="126" alt="" aria-hidden="true">
+    <span class="mark-wrap">
+      <img class="banner-mark" src="assets/wordmark.webp" width="720" height="126" alt="" aria-hidden="true">
+      <canvas class="mark-canvas" aria-hidden="true"></canvas>
+    </span>
     <p class="banner-rhythm">Schedule. Remember. Record.</p>
     <h1>One reminder.<br>Not five.</h1>
     <p class="lede">Most medication apps buzz you again and again until you give in. BerusAI reminds you once, then waits quietly for your answer.</p>
@@ -251,6 +254,7 @@
   </div>
 </footer>
 
+<script src="mark.js" defer></script>
 <script>
   // Without JS the header wordmark simply stays visible, which is the safe default.
   (function () {

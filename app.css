@@ -143,9 +143,15 @@ header{
 /* ---------- Banner hero ---------- */
 /* The composition of the Play Store feature graphic, rebuilt in live text so it stays
    sharp at any size and can be translated. The raster stays the share card. */
-.banner{padding:var(--s7) 0 var(--s9); text-align:center}
+.banner{padding:var(--s7) 0 var(--s9); text-align:center; overflow-x:clip}
 .banner-inner{display:grid; justify-items:center}
-.banner-mark{width:min(268px,60vw); height:auto; margin-bottom:var(--s4)}
+/* The mark canvas is drawn far wider and taller than the letters so the dots have
+   room to climb and burst; clipping at the banner keeps it off the page width. */
+.mark-wrap{position:relative; display:inline-block; line-height:0; margin-bottom:var(--s4)}
+.banner-mark{width:min(268px,60vw); height:auto; display:block}
+.mark-canvas{position:absolute; pointer-events:none; display:none}
+.mark-wrap.is-playing .banner-mark{visibility:hidden}
+.mark-wrap.is-playing .mark-canvas{display:block}
 
 /* The banner settles in one line at a time, the way the app's splash holds before it
    hands over. Fill mode both means each piece waits, out of sight, for its turn. */
