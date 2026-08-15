@@ -3,32 +3,32 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>BerusAI — one calm medication reminder, not five</title>
-<meta name="description" content="BerusAI reminds you once per dose and waits for your answer. No nagging, no repeat buzzing. Your medication history stays on your phone.">
+<title>BerusAI — local medication reminders with schedule sync</title>
+<meta name="description" content="BerusAI provides one local reminder per dose, user-reported tracking, and account sync for medicine schedules. Photos, voice notes, and dose history stay on-device.">
 <meta name="theme-color" content="#f2efec">
 <meta name="color-scheme" content="light">
-<link rel="canonical" href="https://gopib9119.github.io/berusai-site/">
+<link rel="canonical" href="https://ashy-stone-01635bb00.7.azurestaticapps.net/">
 <link rel="icon" href="favicon.ico" sizes="any">
 <link rel="apple-touch-icon" href="assets/icon.png">
 
 <!-- Social crawlers need absolute URLs, so these cannot be relative paths. -->
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="BerusAI">
-<meta property="og:title" content="BerusAI — one calm medication reminder, not five">
-<meta property="og:description" content="Reminds you once per dose and waits for your answer. No nagging. Your history stays on your phone.">
-<meta property="og:image" content="https://gopib9119.github.io/berusai-site/assets/social-card.png">
+<meta property="og:title" content="BerusAI — local medication reminders with schedule sync">
+<meta property="og:description" content="One local reminder per dose. Medicine definitions sync; photos, voice notes, and dose history stay on-device.">
+<meta property="og:image" content="https://ashy-stone-01635bb00.7.azurestaticapps.net/assets/social-card.png">
 <meta property="og:image:width" content="1024">
 <meta property="og:image:height" content="500">
 <meta property="og:image:alt" content="BerusAI. Medication reminders, made clear. Schedule. Remember. Record.">
-<meta property="og:url" content="https://gopib9119.github.io/berusai-site/">
+<meta property="og:url" content="https://ashy-stone-01635bb00.7.azurestaticapps.net/">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="BerusAI — one calm medication reminder, not five">
-<meta name="twitter:description" content="Reminds you once per dose and waits for your answer. No nagging.">
-<meta name="twitter:image" content="https://gopib9119.github.io/berusai-site/assets/social-card.png">
+<meta name="twitter:title" content="BerusAI — local medication reminders with schedule sync">
+<meta name="twitter:description" content="One local reminder per dose with account sync for medicine schedules.">
+<meta name="twitter:image" content="https://ashy-stone-01635bb00.7.azurestaticapps.net/assets/social-card.png">
 
 <link rel="stylesheet" href="app.css">
 </head>
-<body>
+<body class="home">
 
 <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false"><defs>
   <filter id="goo" x="-30%" y="-30%" width="160%" height="160%">
@@ -54,9 +54,9 @@
   <i class="d1"></i><i class="d2"></i><i class="d3"></i><i class="d4"></i><i class="d5"></i><i class="d6"></i>
 </div>
 
-<header>
+<header class="is-hero-overlap">
   <div class="wrap header-row">
-    <a class="brand" href="./"><img src="assets/wordmark.webp" width="720" height="126" alt="BerusAI"></a>
+    <a class="brand" href="./"><img src="assets/wordmark.png" width="720" height="126" alt="BerusAI"></a>
     <a class="btn btn-ghost btn-sm" href="#install">Get the app</a>
   </div>
 </header>
@@ -65,20 +65,19 @@
 <div class="banner wrap">
   <div class="banner-inner">
     <span class="mark-wrap">
-      <img class="banner-mark" src="assets/wordmark.webp" width="720" height="126" alt="" aria-hidden="true">
+      <img class="banner-mark" src="assets/wordmark.png" width="720" height="126" alt="" aria-hidden="true">
       <canvas class="mark-canvas" aria-hidden="true"></canvas>
     </span>
     <p class="banner-rhythm">Schedule. Remember. Record.</p>
     <h1>One reminder.<br>Not five.</h1>
-    <p class="lede">Most medication apps buzz you again and again until you give in. BerusAI reminds you once, then waits quietly for your answer.</p>
+    <p class="lede">BerusAI sends one reminder for a scheduled dose, then lets you record Taken or Not taken when you respond.</p>
     <div class="cta">
       <a class="btn btn-primary" href="#install"><svg class="ico ico-sm" aria-hidden="true"><use href="#i-chevron-down"/></svg>Get it on Android</a>
       <a class="btn btn-ghost" href="#how">See how it works</a>
     </div>
-    <p class="note">Early access &middot; Free &middot; 3.3 MB &middot; no account needed &middot; works offline</p>
+    <p class="note">Release testing &middot; account required &middot; local reminders work offline after sign-in</p>
     <div class="stage">
-      <img class="shot-hero" src="assets/shots/05-medications-and-tracking.webp" width="540" height="1200" alt="The BerusAI medications screen showing today's progress and two medicines with their times.">
-      <img class="shot-card" src="assets/shots/reminder-card.webp" width="996" height="364" alt="A BerusAI reminder reading Medication reminder, Take E2ET at bedtime, with Taken, Not taken and Snooze buttons.">
+      <img class="shot-hero" src="assets/shots/05-medication-home.png" width="540" height="1080" alt="The BerusAI medications screen showing today's progress and a synthetic Vitamin D reminder.">
     </div>
   </div>
 </div>
@@ -86,11 +85,11 @@
 <section id="why" aria-labelledby="h-why">
   <div class="wrap">
     <p class="eyebrow">The problem</p>
-    <h2 id="h-why">Why people uninstall reminder apps</h2>
-    <p class="section-lede">It is almost never because the reminder failed. It is because the reminder would not stop.</p>
+    <h2 id="h-why">A quieter reminder flow</h2>
+    <p class="section-lede">One notification per dose, clear response choices, and no repeated overdue alert.</p>
     <div class="compare">
       <div class="box bad">
-        <h3><svg class="ico" aria-hidden="true"><use href="#i-alert"/></svg>What usually happens</h3>
+        <h3><svg class="ico" aria-hidden="true"><use href="#i-alert"/></svg>A repeated-alert pattern</h3>
         <ul>
           <li>Reminder at 5:37</li>
           <li>Again at 5:52</li>
@@ -106,7 +105,7 @@
           <li>Reminder at 5:37</li>
           <li>It stays on your screen</li>
           <li>You answer whenever you can</li>
-          <li>A missed dose is saved quietly, never shouted about</li>
+          <li>No repeat or separate overdue notification is sent</li>
           <li>That is the whole thing</li>
         </ul>
       </div>
@@ -127,12 +126,12 @@
       <div class="card">
         <span class="ico-tile"><svg class="ico" aria-hidden="true"><use href="#i-offline"/></svg></span>
         <h3>It works offline</h3>
-        <p>Reminders are scheduled on your phone. No signal, no data pack, aeroplane mode &mdash; they still arrive on time.</p>
+        <p>Reminder scheduling does not require a signal or data pack. Android permissions, battery controls, or force-stop state can still delay or prevent delivery.</p>
       </div>
       <div class="card">
         <span class="ico-tile"><svg class="ico" aria-hidden="true"><use href="#i-lock"/></svg></span>
-        <h3>It stays on your device</h3>
-        <p>Your medicines and history live on your phone. Cloud backup is optional and only runs if you sign in.</p>
+        <h3>A clear data boundary</h3>
+        <p>Medicine definitions and schedules sync to your account. Photos, voice notes, and dose history stay only on this device.</p>
       </div>
     </div>
   </div>
@@ -143,7 +142,7 @@
     <p class="eyebrow">Getting started</p>
     <h2 id="h-how">How it works</h2>
     <ol class="steps">
-      <li><strong>Add your medicine</strong><span>Name it, add a photo if you like, and set how many days the course runs.</span></li>
+      <li><strong>Sign in and add a medicine</strong><span>Use Google or verified email, then name it, add an optional device-only photo, and set the course.</span></li>
       <li><strong>Pick your times</strong><span>Morning, afternoon, night — before or after food. Sensible defaults are already filled in.</span></li>
       <li><strong>Answer once a dose</strong><span>Tap Taken or Not taken. Your history builds itself, so you always know where you stand.</span></li>
     </ol>
@@ -153,54 +152,22 @@
 <section aria-labelledby="h-inside">
   <div class="wrap"><p class="eyebrow">Screens</p><h2 id="h-inside">A look inside</h2></div>
   <div class="strip">
-    <figure><img src="assets/shots/02-create-medication.webp" width="540" height="1200" loading="lazy" alt="Adding a medication with a name and photo."><figcaption>Add a medicine</figcaption></figure>
-    <figure><img src="assets/shots/03-reminder-times.webp" width="540" height="1200" loading="lazy" alt="Choosing reminder times for morning, afternoon and night."><figcaption>Choose your times</figcaption></figure>
-    <figure><img src="assets/shots/04-treatment-course.webp" width="540" height="1200" loading="lazy" alt="Setting how many days the treatment course runs."><figcaption>Set the course</figcaption></figure>
-    <figure><img src="assets/shots/05-medications-and-tracking.webp" width="540" height="1200" loading="lazy" alt="The list of medications with dose tracking."><figcaption>Track every dose</figcaption></figure>
-    <figure><img src="assets/shots/07-on-this-device.webp" width="540" height="1200" loading="lazy" alt="Settings showing that data is stored on this device."><figcaption>Your data, your phone</figcaption></figure>
-  </div>
-</section>
-
-<section id="next" aria-labelledby="h-next">
-  <div class="wrap">
-    <span class="pill">Future version</span>
-    <h2 id="h-next">Where BerusAI is going</h2>
-    <p class="section-lede">There is no AI in the app today, and we would rather tell you that than pretend. Right now it does one thing properly: it reminds you once, and remembers your answer. Here is what is being built next.</p>
-    <div class="cards">
-      <div class="card">
-        <span class="ico-tile amber"><svg class="ico" aria-hidden="true"><use href="#i-chart"/></svg></span>
-        <h3>Spot the doses you miss</h3>
-        <p>Your history already knows which dose you skip most. A future version will point it out in plain words, so you can fix the habit instead of guessing.</p>
-      </div>
-      <div class="card">
-        <span class="ico-tile amber"><svg class="ico" aria-hidden="true"><use href="#i-clock"/></svg></span>
-        <h3>Times that fit your day</h3>
-        <p>Reminders are on a fixed clock today. Later they will learn when you actually answer, and suggest a time you are more likely to keep.</p>
-      </div>
-      <div class="card">
-        <span class="ico-tile amber"><svg class="ico" aria-hidden="true"><use href="#i-doc"/></svg></span>
-        <h3>A summary worth showing</h3>
-        <p>A simple weekly view you can hand to a doctor or a family member, without them scrolling through your whole history.</p>
-      </div>
-    </div>
-    <p class="note">None of this is in the app yet. When it arrives it will be optional, and your history will still live on your phone.</p>
+    <figure><img src="assets/shots/01-account-required.png" width="540" height="1080" loading="lazy" alt="BerusAI requiring Google or verified email sign-in before medication access."><figcaption>Sign in securely</figcaption></figure>
+    <figure><img src="assets/shots/04-reminder-schedule.png" width="540" height="1080" loading="lazy" alt="Naming a Vitamin D reminder and setting its time."><figcaption>Choose your times</figcaption></figure>
+    <figure><img src="assets/shots/05-medication-home.png" width="540" height="1080" loading="lazy" alt="Today's synthetic Vitamin D reminder and user-reported progress."><figcaption>See today's doses</figcaption></figure>
+    <figure><img src="assets/shots/07-reminder-response.png" width="540" height="1080" loading="lazy" alt="A Vitamin D reminder with Taken and Not taken choices."><figcaption>Answer each reminder</figcaption></figure>
   </div>
 </section>
 
 <section id="install" aria-labelledby="h-install">
   <div class="wrap">
     <p class="eyebrow">Install</p>
-    <h2 id="h-install">Get it on your phone</h2>
-    <p class="section-lede">BerusAI is not on Google Play yet, so Android will ask you to confirm the install. That warning appears for every app installed outside the store — it is not a sign anything is wrong.</p>
+    <h2 id="h-install">Google Play release in progress</h2>
+    <p class="section-lede">The current release is still completing device, privacy, and Play checks. There is no approved public download yet.</p>
     <div class="cta">
-      <a class="btn btn-primary" href="https://github.com/GopiB9119/berusai-site/releases/download/v1.0/berusai-1.0.apk" download><svg class="ico ico-sm" aria-hidden="true"><use href="#i-download"/></svg>Download berusai-1.0.apk &middot; 3.3 MB</a>
+      <a class="btn btn-primary" href="mailto:berusaisupport@gmail.com"><svg class="ico ico-sm" aria-hidden="true"><use href="#i-doc"/></svg>Contact support</a>
     </div>
-    <ol class="steps">
-      <li><strong>Download the file</strong><span>Tap the button above on your phone. <b>berusai-1.0.apk</b> saves to your Downloads folder.</span></li>
-      <li><strong>Open it and allow</strong><span>Android will block it the first time. Tap <b>Settings</b>, switch on <b>Allow from this source</b>, then go back and tap <b>Install</b>.</span></li>
-      <li><strong>Say yes to two prompts</strong><span>Allow <b>notifications</b> and <b>alarms &amp; reminders</b>. Without those two, Android will not let reminders reach you on time.</span></li>
-    </ol>
-    <p class="note">Android 7.0 or newer. No account, no sign-in, and nothing leaves your phone.</p>
+    <p class="note">Android 7.0 or newer. Google or verified email account required. No approved public download yet.</p>
   </div>
 </section>
 
@@ -209,7 +176,7 @@
     <div class="panel">
       <p class="eyebrow">Stay in the loop</p>
       <h2 id="h-notify">Tell me when it reaches Google Play</h2>
-      <p class="section-lede">One email on the day it goes live, and nothing else. Your address is not shared with anyone.</p>
+      <p class="section-lede">One email on the day it goes live, and nothing else. Your mail app sends the address only after you choose Send; it is used for that update.</p>
       <form class="signup" id="notify-form" novalidate>
         <div class="field">
           <label for="notify-email">Your email</label>
@@ -231,13 +198,11 @@
   <div class="wrap">
     <h2 id="h-faq">Questions</h2>
     <div class="faq">
-      <details><summary><span>Is it free?</span><svg class="ico" aria-hidden="true"><use href="#i-chevron"/></svg></summary><p>Yes. BerusAI is free to use, with no ads and nothing to unlock.</p></details>
-      <details><summary><span>Do I need an account?</span><svg class="ico" aria-hidden="true"><use href="#i-chevron"/></svg></summary><p>No. You can add medicines and get reminders without signing in. Signing in only adds optional cloud backup so you can restore on a new phone.</p></details>
-      <details><summary><span>Will reminders work if I close the app?</span><svg class="ico" aria-hidden="true"><use href="#i-chevron"/></svg></summary><p>Yes. Reminders are scheduled with the Android system, so they arrive whether the app is open, closed, or the phone was restarted.</p></details>
-      <details><summary><span>What if I miss a dose?</span><svg class="ico" aria-hidden="true"><use href="#i-chevron"/></svg></summary><p>The app quietly records it as missed so your history stays accurate. It will not send you an extra notification about it.</p></details>
-      <details><summary><span>Why is it called BerusAI if there is no AI yet?</span><svg class="ico" aria-hidden="true"><use href="#i-chevron"/></svg></summary><p>Because of where it is heading, not where it is today. The reminders you get now are plain scheduling, done carefully. The smarter parts described above are still being built, and we would rather be straight with you than claim something the app cannot do.</p></details>
-      <details><summary><span>Is my health data private?</span><svg class="ico" aria-hidden="true"><use href="#i-chevron"/></svg></summary><p>Your medicines and dose history are stored on your phone. Nothing is shared with advertisers, and nothing is sold. Cloud backup runs only if you choose to sign in.</p></details>
-      <details><summary><span>Is it safe to install outside the Play Store?</span><svg class="ico" aria-hidden="true"><use href="#i-chevron"/></svg></summary><p>The file is signed with our own certificate, so Android can confirm it has not been tampered with, and it is built in release mode so nobody can read your medication data off the phone. You are trusting us rather than Google's review, which is a fair thing to weigh. If you would rather wait for the Play Store version, email us and we will tell you when it is live.</p></details>
+      <details><summary><span>Do I need an account?</span><svg class="ico" aria-hidden="true"><use href="#i-chevron"/></svg></summary><p>Yes. Continue with Google or create and verify an email account before medication screens open.</p></details>
+      <details><summary><span>Does it work offline?</span><svg class="ico" aria-hidden="true"><use href="#i-chevron"/></svg></summary><p>After sign-in, local reminders, editing, and dose recording continue offline. Account creation, fresh restore, and deletion need service access.</p></details>
+      <details><summary><span>Will reminders work if I close the app?</span><svg class="ico" aria-hidden="true"><use href="#i-chevron"/></svg></summary><p>BerusAI schedules reminders with Android and restores them after restart. Permissions, battery controls, device settings, or force-stop state can still delay or prevent delivery.</p></details>
+      <details><summary><span>What if I do not respond?</span><svg class="ico" aria-hidden="true"><use href="#i-chevron"/></svg></summary><p>The dose can appear overdue in your local view. BerusAI does not send a repeat or separate overdue notification; you can later record Taken or Not taken.</p></details>
+      <details><summary><span>What syncs?</span><svg class="ico" aria-hidden="true"><use href="#i-chevron"/></svg></summary><p>Medicine names, notes, course dates, custom reminder names, and times sync. Photos, voice notes, and dose history stay only on this device.</p></details>
       <details><summary><span>When is it on the Play Store?</span><svg class="ico" aria-hidden="true"><use href="#i-chevron"/></svg></summary><p>It is in final testing now. Email us and we will tell you the day it goes live.</p></details>
     </div>
   </div>
@@ -247,8 +212,9 @@
 <footer>
   <div class="wrap">
     <div class="foot-links">
-      <a href="privacy.html">Privacy policy</a>
-      <a href="mailto:banothgopikrishna19@gmail.com">Contact support</a>
+      <a href="privacy/">Privacy policy</a>
+      <a href="support/">Support</a>
+      <a href="account-deletion/">Delete account</a>
     </div>
     <p>BerusAI helps you remember your medication. It does not give medical advice. Always follow your doctor or pharmacist.</p>
   </div>
@@ -256,14 +222,14 @@
 
 <script src="mark.js" defer></script>
 <script>
-  // Without JS the header wordmark simply stays visible, which is the safe default.
+  // The header wordmark stays visible always: the canvas animation is the only other
+  // place the mark appears, so hiding this too can leave the page with no logo at all.
   (function () {
-    var brand = document.querySelector('.brand');
+    var header = document.querySelector('header');
     var mark = document.querySelector('.banner-mark');
-    if (!brand || !mark || !('IntersectionObserver' in window)) return;
-    brand.classList.add('is-hidden');
+    if (!header || !mark || !('IntersectionObserver' in window)) return;
     new IntersectionObserver(function (entries) {
-      brand.classList.toggle('is-hidden', entries[0].isIntersecting);
+      header.classList.toggle('is-hero-overlap', entries[0].isIntersecting);
     }, { rootMargin: '-56px 0px 0px 0px' }).observe(mark);
   })();
 
@@ -292,7 +258,7 @@
   // never silently swallows an address.
   (function () {
     var NOTIFY_ENDPOINT = '';
-    var CONTACT = 'banothgopikrishna19@gmail.com';
+    var CONTACT = 'berusaisupport@gmail.com';
     var form = document.getElementById('notify-form');
     if (!form) return;
     var input = document.getElementById('notify-email');

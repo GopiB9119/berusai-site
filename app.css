@@ -132,7 +132,7 @@ header{
 }
 .header-row{display:flex; align-items:center; justify-content:space-between; gap:var(--s4)}
 .brand{display:inline-block; text-decoration:none; line-height:0; transition:opacity 240ms ease-out, transform 240ms ease-out, visibility 0s}
-.brand img{height:30px; width:auto; display:block}
+.brand img{height:36px; width:auto; display:block}
 /* The banner already shows the wordmark, so the header holds it back until the banner
    has gone. Delaying visibility keeps the link out of the tab order once faded. */
 .brand.is-hidden{
@@ -148,7 +148,7 @@ header{
 /* The mark canvas is drawn far wider and taller than the letters so the dots have
    room to climb and burst; clipping at the banner keeps it off the page width. */
 .mark-wrap{position:relative; display:inline-block; line-height:0; margin-bottom:var(--s4)}
-.banner-mark{width:min(268px,60vw); height:auto; display:block}
+.banner-mark{width:min(340px,72vw); height:auto; display:block}
 .mark-canvas{position:absolute; pointer-events:none; display:none}
 .mark-wrap.is-playing .banner-mark{visibility:hidden}
 .mark-wrap.is-playing .mark-canvas{display:block}
@@ -192,15 +192,6 @@ header{
   border-radius:var(--r-xl); border:1px solid var(--glass-edge);
   box-shadow:0 4px 10px rgba(29,28,27,.07), 0 34px 80px rgba(29,28,27,.20);
 }
-/* The reminder is the whole point, so it steps out in front of the phone.
-   drop-shadow follows the card's rounded alpha; box-shadow would draw a rectangle. */
-.shot-card{
-  position:absolute; left:50%; transform:translateX(-50%); bottom:7%;
-  width:124%; max-width:none; height:auto;
-  filter:drop-shadow(0 2px 4px rgba(29,28,27,.16)) drop-shadow(0 20px 38px rgba(29,28,27,.26));
-}
-@media(max-width:640px){.shot-card{width:104%; bottom:6%}}
-
 /* ---------- Icons ---------- */
 .ico{
   width:22px; height:22px; flex:none; display:block;
@@ -251,6 +242,17 @@ header{
 .btn-ghost:hover{border-color:var(--outline)}
 .btn-sm{min-height:40px; padding:0 var(--s4); font-size:.9375rem}
 @media(max-width:520px){.btn-sm{display:none}}
+
+@media(max-width:520px){
+  .home header{position:fixed; inset:0 0 auto; transition:opacity 180ms ease-out, transform 180ms ease-out}
+  .home header.is-hero-overlap{opacity:0; transform:translateY(-100%); pointer-events:none}
+  .banner{padding:var(--s5) 0 var(--s5)}
+  .banner-rhythm{margin-bottom:var(--s4)}
+  .banner .cta{margin-top:var(--s4)}
+  .banner .cta .btn-ghost{display:none}
+  .banner .note{margin-top:var(--s3); margin-bottom:var(--s5)}
+  .stage{width:170px}
+}
 
 .pill{
   display:inline-block; background:var(--brand-soft); color:var(--brand-deep);
